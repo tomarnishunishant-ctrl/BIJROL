@@ -35,7 +35,7 @@
                 <a href="{{ route('admin.achievers.index') }}">Who's Who <span>Manage</span></a>
                 <a href="{{ route('admin.news.index') }}">News <span>Manage</span></a>
                 <a href="{{ route('admin.events.index') }}">Events <span>Manage</span></a>
-                <a href="/whos-who">Public Page <span>View</span></a>
+                <a href="{{ url('/whos-who') }}">Public Page <span>View</span></a>
             </nav>
             <form method="POST" action="{{ route('admin.logout') }}">@csrf<button type="submit" class="admin-logout">Logout <span>Exit</span></button></form>
         </aside>
@@ -81,7 +81,7 @@
                                     </td>
                                     <td><strong>{{ $achiever->name }}</strong><br><small>{{ $achiever->badge }}</small></td>
                                     <td>{{ $achiever->role }}</td>
-                                    <td><a href="/{{ $achiever->slug }}" target="_blank">/{{ $achiever->slug }}</a></td>
+                                    <td><a href="{{ url('/' . $achiever->slug) }}" target="_blank">/{{ $achiever->slug }}</a></td>
                                     <td><span class="badge-status {{ $achiever->is_published ? 'badge-live' : 'badge-draft' }}">{{ $achiever->is_published ? 'Published' : 'Draft' }}</span></td>
                                     <td>{{ $achiever->display_order }}</td>
                                     <td>

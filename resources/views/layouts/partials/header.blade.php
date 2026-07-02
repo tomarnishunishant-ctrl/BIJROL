@@ -1,20 +1,7 @@
-<div class="gov-topbar">
-    <div class="container gov-topbar__inner">
-        <div class="gov-topbar__left">
-            <a href="#main-content">Skip to main content</a>
-            <span>Premium Digital Village Portal</span>
-        </div>
-        <div class="gov-topbar__right">
-            <span>Bijrol, Baghpat, Uttar Pradesh</span>
-            <a href="/contact">Contact</a>
-            <a href="/admin/login">Admin Login</a>
-        </div>
-    </div>
-</div>
-
 <nav class="navbar-modern" id="mainNavbar">
+    <div class="nav-scroll-progress" id="navScrollProgress" aria-hidden="true"></div>
     <div class="container">
-        <a class="brand-wrapper" href="/">
+        <a class="brand-wrapper" href="{{ url('/') }}">
             <span class="brand-icon">B</span>
             <span class="brand-text">
                 <span class="brand-name">BIJROL</span>
@@ -30,7 +17,7 @@
 
         <ul class="nav-links" id="navLinks">
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="/">
+                <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="{{ url('/') }}">
                     <span class="nav-icon">HM</span>
                     <span class="nav-text">Home</span>
                 </a>
@@ -41,46 +28,46 @@
                     <span class="nav-text">About</span>
                 </a>
                 <ul class="dropdown-menu-modern">
-                    <li><a class="dropdown-item-modern" href="/about#information"><span class="dropdown-icon">IN</span> Information</a></li>
-                    <li><a class="dropdown-item-modern" href="/whos-who"><span class="dropdown-icon">WW</span> Who's Who</a></li>
-                    <li><a class="dropdown-item-modern" href="/schools"><span class="dropdown-icon">SC</span> Schools</a></li>
-                    <li><a class="dropdown-item-modern" href="/temples"><span class="dropdown-icon">TM</span> Temples</a></li>
-                    <li><a class="dropdown-item-modern" href="/sport-ground"><span class="dropdown-icon">SP</span> Sport Ground</a></li>
-                    <li><a class="dropdown-item-modern" href="/hospitals"><span class="dropdown-icon">HP</span> Hospitals</a></li>
+                    <li><a class="dropdown-item-modern" href="{{ url('/about#information') }}"><span class="dropdown-icon">IN</span> Information</a></li>
+                    <li><a class="dropdown-item-modern" href="{{ url('/whos-who') }}"><span class="dropdown-icon">WW</span> Who's Who</a></li>
+                    <li><a class="dropdown-item-modern" href="{{ url('/schools') }}"><span class="dropdown-icon">SC</span> Schools</a></li>
+                    <li><a class="dropdown-item-modern" href="{{ url('/temples') }}"><span class="dropdown-icon">TM</span> Temples</a></li>
+                    <li><a class="dropdown-item-modern" href="{{ url('/sport-ground') }}"><span class="dropdown-icon">SP</span> Sport Ground</a></li>
+                    <li><a class="dropdown-item-modern" href="{{ url('/hospitals') }}"><span class="dropdown-icon">HP</span> Hospitals</a></li>
                 </ul>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('gallery') ? 'active' : '' }}" href="/gallery">
+                <a class="nav-link {{ request()->is('gallery') ? 'active' : '' }}" href="{{ url('/gallery') }}">
                     <span class="nav-icon">GL</span>
                     <span class="nav-text">Gallery</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('government-employees') ? 'active' : '' }}" href="/government-employees">
+                <a class="nav-link {{ request()->is('government-employees') ? 'active' : '' }}" href="{{ url('/government-employees') }}">
                     <span class="nav-icon">GE</span>
                     <span class="nav-text">Govt Employees</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('contact') ? 'active' : '' }}" href="/contact">
+                <a class="nav-link {{ request()->is('contact') ? 'active' : '' }}" href="{{ url('/contact') }}">
                     <span class="nav-icon">CT</span>
                     <span class="nav-text">Contact</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('village-voice') ? 'active' : '' }}" href="/village-voice">
+                <a class="nav-link {{ request()->is('village-voice') ? 'active' : '' }}" href="{{ url('/village-voice') }}">
                     <span class="nav-icon">VV</span>
                     <span class="nav-text">Village Voice</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('panchayat-dashboard') ? 'active' : '' }}" href="/panchayat-dashboard">
+                <a class="nav-link {{ request()->is('panchayat-dashboard') ? 'active' : '' }}" href="{{ url('/panchayat-dashboard') }}">
                     <span class="nav-icon">PD</span>
                     <span class="nav-text">Panchayat Dashboard</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link-admin" href="/admin/login">
+                <a class="nav-link-admin" href="{{ url('/admin/login') }}">
                     <span class="nav-icon">AD</span>
                     <span class="nav-text">Admin</span>
                 </a>
@@ -101,6 +88,13 @@ document.addEventListener('DOMContentLoaded', function() {
             navbar.classList.add('scrolled');
         } else {
             navbar.classList.remove('scrolled');
+        }
+
+        const progress = document.getElementById('navScrollProgress');
+        if (progress) {
+            const height = document.documentElement.scrollHeight - window.innerHeight;
+            const percent = height > 0 ? Math.min(window.scrollY / height, 1) * 100 : 0;
+            progress.style.transform = 'scaleX(' + (percent / 100) + ')';
         }
     });
 

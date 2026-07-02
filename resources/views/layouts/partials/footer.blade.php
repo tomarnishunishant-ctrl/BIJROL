@@ -34,24 +34,24 @@
       <div class="fp-footer__col">
         <h6 class="fp-footer__heading">Quick Links</h6>
         <ul class="fp-footer__links">
-          <li><a href="/">Home</a></li>
-          <li><a href="/about">About BIJROL</a></li>
-          <li><a href="/gallery">Gallery</a></li>
-          <li><a href="/village-voice">Village Voice</a></li>
-          <li><a href="/government-employees">Government Employees</a></li>
-          <li><a href="/contact">Contact</a></li>
+          <li><a href="{{ url('/') }}">Home</a></li>
+          <li><a href="{{ url('/about') }}">About BIJROL</a></li>
+          <li><a href="{{ url('/gallery') }}">Gallery</a></li>
+          <li><a href="{{ url('/village-voice') }}">Village Voice</a></li>
+          <li><a href="{{ url('/government-employees') }}">Government Employees</a></li>
+          <li><a href="{{ url('/contact') }}">Contact</a></li>
         </ul>
       </div>
 
       <div class="fp-footer__col">
         <h6 class="fp-footer__heading">Village Sections</h6>
         <ul class="fp-footer__links">
-          <li><a href="/about#information">Village Information</a></li>
-          <li><a href="/schools">Education</a></li>
-          <li><a href="/temples">Temples</a></li>
-          <li><a href="/hospitals">Healthcare</a></li>
-          <li><a href="/sport-ground">Sports Ground</a></li>
-          <li><a href="/whos-who">Village Leaders</a></li>
+          <li><a href="{{ url('/about#information') }}">Village Information</a></li>
+          <li><a href="{{ url('/schools') }}">Education</a></li>
+          <li><a href="{{ url('/temples') }}">Temples</a></li>
+          <li><a href="{{ url('/hospitals') }}">Healthcare</a></li>
+          <li><a href="{{ url('/sport-ground') }}">Sports Ground</a></li>
+          <li><a href="{{ url('/whos-who') }}">Village Leaders</a></li>
         </ul>
       </div>
 
@@ -102,7 +102,7 @@
         <ul class="fp-footer__info">
           <li><span>Address</span><strong>BIJROL, Baghpat, Uttar Pradesh</strong></li>
           <li><span>Email</span><strong><a href="mailto:contact@bijrolvillage.in">contact@bijrolvillage.in</a></strong></li>
-          <li><span>Website Help</span><strong><a href="/contact">Contact Page</a></strong></li>
+          <li><span>Website Help</span><strong><a href="{{ url('/contact') }}">Contact Page</a></strong></li>
         </ul>
       </div>
 

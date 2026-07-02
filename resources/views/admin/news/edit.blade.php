@@ -181,9 +181,9 @@
                 <a href="{{ route('admin.dashboard') }}">Dashboard <span>Home</span></a>
                 <a href="{{ route('admin.news.index') }}">News <span>Manage</span></a>
                 <a href="{{ route('admin.events.index') }}">Events <span>Manage</span></a>
-                <a href="/village-voice">Village Voice <span>Control</span></a>
-                <a href="/government-employees">Employees <span>Manage</span></a>
-                <a href="/">Public Website <span>View</span></a>
+                <a href="{{ url('/village-voice') }}">Village Voice <span>Control</span></a>
+                <a href="{{ url('/government-employees') }}">Employees <span>Manage</span></a>
+                <a href="{{ url('/') }}">Public Website <span>View</span></a>
             </nav>
             <form method="POST" action="{{ route('admin.logout') }}">
                 @csrf

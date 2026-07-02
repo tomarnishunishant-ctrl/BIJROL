@@ -318,6 +318,152 @@
     white-space: nowrap;
 }
 
+.employees-tools {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.employees-search {
+    position: relative;
+    width: min(430px, 100%);
+}
+
+.employees-search label {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--ge-ink);
+    font-size: .82rem;
+    font-weight: 900;
+}
+
+.employees-search input {
+    width: 100%;
+    min-height: 48px;
+    border: 1px solid rgba(16, 32, 51, .14);
+    border-radius: 8px;
+    padding: 12px 14px 12px 42px;
+    color: var(--ge-ink);
+    background: rgba(255,255,255,.84);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.72);
+    font-weight: 700;
+    outline: none;
+    transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+.employees-search input:focus {
+    background: #fff;
+    border-color: rgba(15, 107, 71, .68);
+    box-shadow: 0 0 0 4px rgba(15, 107, 71, .12);
+}
+
+.employees-search::after {
+    content: "SR";
+    position: absolute;
+    left: 13px;
+    bottom: 13px;
+    width: 24px;
+    height: 24px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    color: #fff;
+    background: linear-gradient(135deg, var(--ge-green-dark), var(--ge-green));
+    font-size: .58rem;
+    font-weight: 950;
+}
+
+.employees-result-count {
+    color: var(--ge-muted);
+    font-size: .86rem;
+    font-weight: 850;
+}
+
+.employees-table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--ge-line);
+    border-radius: 8px;
+    background: rgba(255,255,255,.72);
+}
+
+.employees-table {
+    width: 100%;
+    min-width: 860px;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.employees-table th,
+.employees-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(16, 32, 51, .09);
+    vertical-align: middle;
+}
+
+.employees-table th {
+    color: var(--ge-green-dark);
+    background: rgba(239, 246, 255, .72);
+    font-size: .76rem;
+    font-weight: 950;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.employees-table tbody tr {
+    transition: background .2s ease, transform .2s ease;
+}
+
+.employees-table tbody tr:hover {
+    background: rgba(236, 253, 245, .72);
+}
+
+.employees-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.employees-table-person {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 220px;
+}
+
+.employees-table-person strong {
+    display: block;
+    color: var(--ge-green-dark);
+    font-weight: 950;
+}
+
+.employees-table-person span {
+    display: block;
+    margin-top: 3px;
+    color: var(--ge-muted);
+    font-size: .78rem;
+    font-weight: 800;
+}
+
+.employees-table .employee-photo,
+.employees-table .employee-photo-placeholder {
+    width: 52px;
+    height: 52px;
+}
+
+.employees-pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    border-radius: 8px;
+    padding: 6px 9px;
+    color: var(--ge-muted);
+    background: #f8fafc;
+    border: 1px solid rgba(16, 32, 51, .1);
+    font-size: .8rem;
+    font-weight: 850;
+}
+
 .employees-list {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -452,9 +598,14 @@
     }
 
     .employees-panel-head,
-    .employees-directory-head {
+    .employees-directory-head,
+    .employees-tools {
         align-items: flex-start;
         flex-direction: column;
+    }
+
+    .employees-search {
+        width: 100%;
     }
 }
 </style>
@@ -468,7 +619,6 @@
                 <div class="employees-copy">
                     <span class="employees-kicker">Government Services</span>
                     <h1>Bijrol public service directory.</h1>
-                    <p>Local government employees, designations, and public service contacts ko ek clean directory me maintain karein.</p>
 
                     <div class="employees-actions" aria-label="Government employee highlights">
                         <span class="employees-chip">Public directory</span>
@@ -504,7 +654,7 @@
                         <div>
                             <span class="employees-kicker">Add Record</span>
                             <h2>Add employee information.</h2>
-                            <p>Naam, designation, aur optional photo upload karke directory update karein.</p>
+                            <p>Naam, department, designation, current posting, aur optional photo upload karke directory update karein.</p>
                         </div>
                         <span class="employees-panel-tag">Service desk</span>
                     </div>
@@ -527,6 +677,20 @@
                         </div>
 
                         <div class="employees-field">
+                            <label for="department" class="form-label">Department</label>
+                            <input
+                                type="text"
+                                class="form-control @error('department') is-invalid @enderror"
+                                id="department"
+                                name="department"
+                                value="{{ old('department') }}"
+                                placeholder="Enter department">
+                            @error('department')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="employees-field">
                             <label for="designation" class="form-label">Designation</label>
                             <input
                                 type="text"
@@ -536,6 +700,20 @@
                                 value="{{ old('designation') }}"
                                 placeholder="Enter designation">
                             @error('designation')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="employees-field">
+                            <label for="currently_posting" class="form-label">Currently Posting</label>
+                            <input
+                                type="text"
+                                class="form-control @error('currently_posting') is-invalid @enderror"
+                                id="currently_posting"
+                                name="currently_posting"
+                                value="{{ old('currently_posting') }}"
+                                placeholder="Enter current posting">
+                            @error('currently_posting')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
@@ -571,33 +749,63 @@
                     <div>
                         <span class="employees-kicker">Employee Information</span>
                         <h2>Public employee records.</h2>
-                        <p>Submitted employee information yahan card format me dikhayi degi.</p>
                     </div>
                     <span class="employees-directory-badge">{{ $employees->count() }} Records</span>
                 </div>
 
                 @if ($employees->count() > 0)
-                    <div class="employees-list">
-                        @foreach ($employees as $employee)
-                            <article class="employee-card">
-                                <div class="employee-card-top">
-                                    @if ($employee->photo)
-                                        <img src="{{ asset('storage/' . $employee->photo) }}" alt="{{ $employee->name }}" class="employee-photo">
-                                    @else
-                                        <span class="employee-photo-placeholder">{{ strtoupper(substr($employee->name, 0, 1)) }}</span>
-                                    @endif
-                                    <div>
-                                        <h3>{{ $employee->name }}</h3>
-                                        <p>{{ $employee->designation }}</p>
-                                    </div>
-                                </div>
+                    <div class="employees-tools">
+                        <div class="employees-search">
+                            <label for="employeeSearch">Search Employee</label>
+                            <input type="search" id="employeeSearch" placeholder="Search by name, department, designation, posting">
+                        </div>
+                        <div class="employees-result-count">
+                            Showing <span id="employeeVisibleCount">{{ $employees->count() }}</span> of {{ $employees->count() }} records
+                        </div>
+                    </div>
 
-                                <div class="employee-meta">
-                                    <span>Public service</span>
-                                    <span>Added {{ $employee->created_at?->format('M d, Y') }}</span>
-                                </div>
-                            </article>
-                        @endforeach
+                    <div class="employees-table-wrap">
+                        <table class="employees-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 70px;">No.</th>
+                                    <th>Employee Name</th>
+                                    <th>Department</th>
+                                    <th>Designation</th>
+                                    <th>Currently Posting</th>
+                                    <th>Added</th>
+                                </tr>
+                            </thead>
+                            <tbody id="employeeTableBody">
+                                @foreach ($employees as $employee)
+                                    <tr data-employee-row data-search="{{ strtolower(trim($employee->name . ' ' . ($employee->department ?? '') . ' ' . $employee->designation . ' ' . ($employee->currently_posting ?? ''))) }}">
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>
+                                            <div class="employees-table-person">
+                                                @if ($employee->photo)
+                                                    <img src="{{ asset('storage/' . $employee->photo) }}" alt="{{ $employee->name }}" class="employee-photo">
+                                                @else
+                                                    <span class="employee-photo-placeholder">{{ strtoupper(substr($employee->name, 0, 1)) }}</span>
+                                                @endif
+                                                <div>
+                                                    <strong>{{ $employee->name }}</strong>
+                                                    <span>Public service record</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td><span class="employees-pill">{{ $employee->department ?: '-' }}</span></td>
+                                        <td>{{ $employee->designation }}</td>
+                                        <td>{{ $employee->currently_posting ?: '-' }}</td>
+                                        <td>{{ $employee->created_at?->format('M d, Y') }}</td>
+                                    </tr>
+                                @endforeach
+                                <tr id="employeeNoResults" style="display:none;">
+                                    <td colspan="6">
+                                        <div class="employees-empty">No matching employee records found.</div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 @else
                     <div class="employees-empty">
@@ -626,5 +834,28 @@
             previewWrapper.style.display = 'none';
         }
     }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.getElementById('employeeSearch');
+        const rows = Array.from(document.querySelectorAll('[data-employee-row]'));
+        const visibleCount = document.getElementById('employeeVisibleCount');
+        const noResults = document.getElementById('employeeNoResults');
+
+        if (!searchInput || rows.length === 0) return;
+
+        searchInput.addEventListener('input', function () {
+            const term = searchInput.value.trim().toLowerCase();
+            let count = 0;
+
+            rows.forEach(function (row) {
+                const matches = row.dataset.search.includes(term);
+                row.style.display = matches ? '' : 'none';
+                if (matches) count += 1;
+            });
+
+            if (visibleCount) visibleCount.textContent = count;
+            if (noResults) noResults.style.display = count === 0 ? '' : 'none';
+        });
+    });
 </script>
 @endsection

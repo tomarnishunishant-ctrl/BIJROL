@@ -156,7 +156,7 @@
                 <div class="alert alert-danger">{{ session('error') }}</div>
             @endif
 
-            <form method="POST" action="/admin/login">
+            <form method="POST" action="{{ url('/admin/login') }}">
                 @csrf
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
@@ -169,7 +169,7 @@
                 <button type="submit" class="btn btn-admin-login w-100">Login</button>
             </form>
 
-            <a class="back-link" href="/">Back to Website</a>
+            <a class="back-link" href="{{ url('/') }}">Back to Website</a>
         </section>
     </main>
 

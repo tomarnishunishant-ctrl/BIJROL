@@ -404,8 +404,8 @@
                 <h1>Sumit Tomar</h1>
                 <p>A Guinness World Record holder from Bijrol, known for an extraordinary no-hands motorcycle wheelie and the discipline of Indian Army training.</p>
                 <div class="person-actions">
-                    <a class="person-btn primary" href="/whos-who">Back to Who's Who</a>
-                    <a class="person-btn secondary" href="/contact">Share verified details</a>
+                    <a class="person-btn primary" href="{{ url('/whos-who') }}">Back to Who's Who</a>
+                    <a class="person-btn secondary" href="{{ url('/contact') }}">Share verified details</a>
                 </div>
             </div>
             <aside class="person-id">
@@ -468,7 +468,7 @@
             <div class="person-cta">
                 <h2>More Achievers From Bijrol</h2>
                 <p>Explore other profiles and help keep this section updated with verified achievements, photos, and public records.</p>
-                <a class="person-btn primary" href="/whos-who">View all profiles</a>
+                <a class="person-btn primary" href="{{ url('/whos-who') }}">View all profiles</a>
             </div>
         </div>
     </section>

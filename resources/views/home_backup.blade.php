@@ -475,8 +475,8 @@
             <h1>BIJROL Village<br>— Where Heritage Meets Progress</h1>
             <p class="lead">Step into a village story that blends historic valor, thriving agriculture, and community innovation. BIJROL welcomes you with scenic views, proud traditions, and modern aspirations.</p>
             <div class="hero-actions">
-                <a href="/about" class="btn btn-primary">Explore Our Story</a>
-                <a href="/gallery" class="btn btn-secondary">View the Gallery</a>
+                <a href="{{ url('/about') }}" class="btn btn-primary">Explore Our Story</a>
+                <a href="{{ url('/gallery') }}" class="btn btn-secondary">View the Gallery</a>
             </div>
 
             <div class="hero-stats mt-5">
@@ -595,7 +595,7 @@
                     <p>Explore our village story, meet the people, and see how heritage and growth come together in a beautifully authentic place.</p>
                 </div>
                 <div class="cta-actions">
-                    <a href="/about" class="btn btn-accent">Discover More</a>
+                    <a href="{{ url('/about') }}" class="btn btn-accent">Discover More</a>
                 </div>
             </div>
         </div>

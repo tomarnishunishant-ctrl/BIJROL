@@ -391,7 +391,7 @@
                     <div class="contact-actions" aria-label="Quick contact actions">
                         <a class="contact-action" href="tel:+919876543210">Call village desk</a>
                         <a class="contact-action" href="mailto:contact@bijrolvillage.in">Email support</a>
-                        <a class="contact-action" href="/village-voice">Submit public sujhav</a>
+                        <a class="contact-action" href="{{ url('/village-voice') }}">Submit public sujhav</a>
                     </div>
 
                     <div class="contact-summary" aria-label="Contact summary">
@@ -473,8 +473,8 @@
                         <strong>Faster response:</strong> Public issue ya suggestion ke liye Village Voice form best hai. General information ke liye phone/email use karein.
                     </div>
                     <div class="contact-actions">
-                        <a class="contact-action" href="/village-voice">Open Village Voice</a>
-                        <a class="contact-action" href="/">Back to Home</a>
+                        <a class="contact-action" href="{{ url('/village-voice') }}">Open Village Voice</a>
+                        <a class="contact-action" href="{{ url('/') }}">Back to Home</a>
                     </div>
                 </div>
 

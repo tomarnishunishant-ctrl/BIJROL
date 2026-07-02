@@ -23,7 +23,7 @@
                     <p class="text-muted mb-0">Profile content ko admin se update karein.</p>
                 </div>
                 <div class="d-flex gap-2">
-                    <a href="/{{ $achiever->slug }}" target="_blank" class="btn btn-outline-success">View</a>
+                    <a href="{{ url('/' . $achiever->slug) }}" target="_blank" class="btn btn-outline-success">View</a>
                     <a href="{{ route('admin.achievers.index') }}" class="btn btn-outline-secondary">Back</a>
                 </div>
             </div>

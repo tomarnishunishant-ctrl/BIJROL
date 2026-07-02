@@ -7,6 +7,7 @@ use App\Models\Achiever;
 use App\Models\VillageSuggestion;
 use App\Models\News;
 use App\Models\Event;
+use App\Models\Clinic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -57,6 +58,7 @@ class AdminController extends Controller
         $latestNews = News::latest()->take(5)->get();
         $latestEvents = Event::latest()->take(5)->get();
         $latestAchievers = Achiever::orderBy('display_order')->latest()->take(5)->get();
+        $latestClinics = Clinic::orderBy('display_order')->latest()->take(5)->get();
         $recentSuggestions = VillageSuggestion::latest()->take(5)->get();
         $recentEmployees = GovernmentEmployee::latest()->take(5)->get();
 
@@ -66,6 +68,7 @@ class AdminController extends Controller
             'latestNews' => $latestNews,
             'latestEvents' => $latestEvents,
             'latestAchievers' => $latestAchievers,
+            'latestClinics' => $latestClinics,
             'recentSuggestions' => $recentSuggestions,
             'recentEmployees' => $recentEmployees,
             'stats' => [
@@ -79,8 +82,106 @@ class AdminController extends Controller
                 'upcomingEvents' => Event::where('event_date', '>=', now()->toDateString())->count(),
                 'achievers' => Achiever::count(),
                 'publishedAchievers' => Achiever::where('is_published', true)->count(),
+                'clinics' => Clinic::count(),
+                'publishedClinics' => Clinic::where('is_published', true)->count(),
             ],
         ]);
+    }
+
+    // Clinics CRUD
+    public function clinicsIndex(Request $request)
+    {
+        if ($redirect = $this->ensureAdmin($request)) {
+            return $redirect;
+        }
+
+        $clinics = Clinic::orderBy('display_order')->latest()->paginate(12);
+
+        return view('admin.clinics.index', compact('clinics'));
+    }
+
+    public function clinicsCreate(Request $request)
+    {
+        if ($redirect = $this->ensureAdmin($request)) {
+            return $redirect;
+        }
+
+        return view('admin.clinics.create');
+    }
+
+    public function clinicsStore(Request $request)
+    {
+        if ($redirect = $this->ensureAdmin($request)) {
+            return $redirect;
+        }
+
+        Clinic::create($this->validatedClinicData($request));
+
+        return redirect()
+            ->route('admin.clinics.index')
+            ->with('success', 'Clinic added successfully.');
+    }
+
+    public function clinicsEdit(Request $request, Clinic $clinic)
+    {
+        if ($redirect = $this->ensureAdmin($request)) {
+            return $redirect;
+        }
+
+        return view('admin.clinics.edit', compact('clinic'));
+    }
+
+    public function clinicsUpdate(Request $request, Clinic $clinic)
+    {
+        if ($redirect = $this->ensureAdmin($request)) {
+            return $redirect;
+        }
+
+        $clinic->update($this->validatedClinicData($request));
+
+        return redirect()
+            ->route('admin.clinics.index')
+            ->with('success', 'Clinic updated successfully.');
+    }
+
+    public function clinicsDestroy(Request $request, Clinic $clinic)
+    {
+        if ($redirect = $this->ensureAdmin($request)) {
+            return $redirect;
+        }
+
+        $clinic->delete();
+
+        return redirect()
+            ->route('admin.clinics.index')
+            ->with('success', 'Clinic deleted successfully.');
+    }
+
+    private function validatedClinicData(Request $request): array
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:180'],
+            'doctor_name' => ['nullable', 'string', 'max:160'],
+            'clinic_type' => ['nullable', 'string', 'max:120'],
+            'location' => ['required', 'string', 'max:220'],
+            'phone' => ['nullable', 'string', 'max:40'],
+            'timing' => ['nullable', 'string', 'max:120'],
+            'services' => ['nullable', 'string', 'max:1200'],
+            'display_order' => ['nullable', 'integer', 'min:0', 'max:9999'],
+            'is_published' => ['nullable', 'boolean'],
+        ]);
+
+        return [
+            'name' => $validated['name'],
+            'doctor_name' => $validated['doctor_name'] ?? null,
+            'clinic_type' => $validated['clinic_type'] ?? null,
+            'location' => $validated['location'],
+            'phone' => $validated['phone'] ?? null,
+            'timing' => $validated['timing'] ?? null,
+            'services' => $validated['services'] ?? null,
+            'display_order' => (int) ($validated['display_order'] ?? 0),
+            'is_published' => $request->boolean('is_published'),
+        ];
     }
 
     // Achievers CRUD

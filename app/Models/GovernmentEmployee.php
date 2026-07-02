@@ -9,7 +9,9 @@ class GovernmentEmployee extends Model
 {
     protected $fillable = [
         'name',
+        'department',
         'designation',
+        'currently_posting',
         'photo',
     ];
 

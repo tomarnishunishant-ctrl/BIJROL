@@ -7,6 +7,7 @@ use App\Models\Achiever;
 use App\Models\VillageSuggestion;
 use App\Models\News;
 use App\Models\Event;
+use App\Models\Clinic;
 use App\Services\EGramSwarajDashboardService;
 use Illuminate\Http\Request;
 
@@ -122,7 +123,12 @@ Route::get('/sport-ground', function () {
 
 // Hospitals page
 Route::get('/hospitals', function () {
-    return view('hospitals');
+    return view('hospitals', [
+        'clinics' => Clinic::where('is_published', true)
+            ->orderBy('display_order')
+            ->orderBy('name')
+            ->get(),
+    ]);
 });
 
 // Contact page
@@ -179,13 +185,17 @@ Route::get('/government-employees', function () {
 Route::post('/government-employees', function (Request $request) {
     $validated = $request->validate([
         'name' => ['required', 'string', 'max:100'],
+        'department' => ['nullable', 'string', 'max:140'],
         'designation' => ['required', 'string', 'max:120'],
+        'currently_posting' => ['nullable', 'string', 'max:160'],
         'photo' => ['nullable', 'image', 'max:2048'],
     ]);
 
     $data = [
         'name' => $validated['name'],
+        'department' => $validated['department'] ?? null,
         'designation' => $validated['designation'],
+        'currently_posting' => $validated['currently_posting'] ?? null,
     ];
 
     if ($request->hasFile('photo')) {
@@ -226,6 +236,14 @@ Route::post('/admin/events', [AdminController::class, 'eventsStore'])->name('adm
 Route::get('/admin/events/{event}/edit', [AdminController::class, 'eventsEdit'])->name('admin.events.edit');
 Route::put('/admin/events/{event}', [AdminController::class, 'eventsUpdate'])->name('admin.events.update');
 Route::delete('/admin/events/{event}', [AdminController::class, 'eventsDestroy'])->name('admin.events.destroy');
+
+// Admin Clinics Management
+Route::get('/admin/clinics', [AdminController::class, 'clinicsIndex'])->name('admin.clinics.index');
+Route::get('/admin/clinics/create', [AdminController::class, 'clinicsCreate'])->name('admin.clinics.create');
+Route::post('/admin/clinics', [AdminController::class, 'clinicsStore'])->name('admin.clinics.store');
+Route::get('/admin/clinics/{clinic}/edit', [AdminController::class, 'clinicsEdit'])->name('admin.clinics.edit');
+Route::put('/admin/clinics/{clinic}', [AdminController::class, 'clinicsUpdate'])->name('admin.clinics.update');
+Route::delete('/admin/clinics/{clinic}', [AdminController::class, 'clinicsDestroy'])->name('admin.clinics.destroy');
 
 // Admin Who's Who Management
 Route::get('/admin/achievers', [AdminController::class, 'achieversIndex'])->name('admin.achievers.index');

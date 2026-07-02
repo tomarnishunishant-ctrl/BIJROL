@@ -415,6 +415,7 @@
             ['title' => 'Schools', 'text' => 'Education facilities page.', 'href' => '/schools'],
             ['title' => 'Temples', 'text' => 'Religious and cultural places.', 'href' => '/temples'],
             ['title' => 'Healthcare', 'text' => 'Hospitals and care facilities.', 'href' => '/hospitals'],
+            ['title' => 'Clinic Management', 'text' => 'Add or update village clinics.', 'href' => route('admin.clinics.index')],
         ];
 
         $statuses = [
@@ -444,11 +445,12 @@
                 <a href="{{ route('admin.news.index') }}">News <span>Articles</span></a>
                 <a href="{{ route('admin.events.index') }}">Events <span>Programs</span></a>
                 <a href="{{ route('admin.achievers.index') }}">Who's Who <span>Profiles</span></a>
+                <a href="{{ route('admin.clinics.index') }}">Clinics <span>Manage</span></a>
                 <a href="#sections">Sections <span>Open</span></a>
                 <a href="#voice">Village Voice <span>Control</span></a>
                 <a href="#employees">Employees <span>Manage</span></a>
-                <a href="/">Public Website <span>View</span></a>
-                <a href="/contact">Contact Page <span>View</span></a>
+                <a href="{{ url('/') }}">Public Website <span>View</span></a>
+                <a href="{{ url('/contact') }}">Contact Page <span>View</span></a>
             </nav>
 
             <form method="POST" action="{{ route('admin.logout') }}">
@@ -467,8 +469,9 @@
                     <a class="admin-btn" href="{{ route('admin.news.create') }}">+ New Article</a>
                     <a class="admin-btn" href="{{ route('admin.events.create') }}">+ New Event</a>
                     <a class="admin-btn" href="{{ route('admin.achievers.create') }}">+ New Profile</a>
-                    <a class="admin-btn" href="/village-voice">Open Village Voice</a>
-                    <a class="admin-btn" href="/government-employees">Add Employee</a>
+                    <a class="admin-btn" href="{{ route('admin.clinics.create') }}">+ New Clinic</a>
+                    <a class="admin-btn" href="{{ url('/village-voice') }}">Open Village Voice</a>
+                    <a class="admin-btn" href="{{ url('/government-employees') }}">Add Employee</a>
                 </div>
             </section>
 
@@ -507,6 +510,11 @@
                     <small>Who's Who Profiles</small>
                     <strong>{{ $stats['achievers'] }}</strong>
                     <span style="font-size:.8rem; color: var(--admin-muted);">{{ $stats['publishedAchievers'] }} published</span>
+                </div>
+                <div class="admin-card">
+                    <small>Clinics</small>
+                    <strong>{{ $stats['clinics'] }}</strong>
+                    <span style="font-size:.8rem; color: var(--admin-muted);">{{ $stats['publishedClinics'] }} live</span>
                 </div>
             </section>
 
@@ -599,7 +607,7 @@
                         <h2>Village Voice Control</h2>
                         <p>Review submissions, change status, hide/show public visibility, or delete entries.</p>
                     </div>
-                    <a href="/village-voice" class="btn btn-outline-success btn-sm">Public Page</a>
+                    <a href="{{ url('/village-voice') }}" class="btn btn-outline-success btn-sm">Public Page</a>
                 </div>
 
                 @if($villageSuggestions->count() > 0)
@@ -669,7 +677,7 @@
                         <h2>Government Employees</h2>
                         <p>Review uploaded employee information and remove outdated records.</p>
                     </div>
-                    <a href="/government-employees" class="btn btn-outline-primary btn-sm">Add Employee</a>
+                    <a href="{{ url('/government-employees') }}" class="btn btn-outline-primary btn-sm">Add Employee</a>
                 </div>
 
                 @if($governmentEmployees->count() > 0)
@@ -680,7 +688,9 @@
                                     <th style="width: 70px;">No.</th>
                                     <th style="width: 82px;">Photo</th>
                                     <th>Name</th>
+                                    <th>Department</th>
                                     <th>Designation</th>
+                                    <th>Currently Posting</th>
                                     <th>Added</th>
                                     <th style="width: 110px;">Action</th>
                                 </tr>
@@ -697,7 +707,9 @@
                                             @endif
                                         </td>
                                         <td><strong>{{ $employee->name }}</strong></td>
+                                        <td>{{ $employee->department ?: '-' }}</td>
                                         <td>{{ $employee->designation }}</td>
+                                        <td>{{ $employee->currently_posting ?: '-' }}</td>
                                         <td>{{ $employee->created_at->format('M d, Y') }}</td>
                                         <td>
                                             <form method="POST" action="{{ route('admin.government-employees.destroy', $employee) }}" onsubmit="return confirm('Delete this employee?');">

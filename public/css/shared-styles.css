@@ -1660,3 +1660,134 @@ body::after {
         padding-bottom: 8px;
     }
 }
+
+/* =========================================================
+   2026 final premium shell
+   ========================================================= */
+
+:root {
+    --lux-ink: #061916;
+    --lux-navy: #071a2f;
+    --lux-emerald: #00a66a;
+    --lux-royal: #2563eb;
+    --lux-gold: #ffb703;
+    --lux-rose: #e11d48;
+    --lux-glass: rgba(255, 255, 255, .66);
+}
+
+html {
+    scroll-padding-top: 108px;
+}
+
+body {
+    font-family: "Manrope", "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: var(--lux-ink);
+    background:
+        linear-gradient(115deg, rgba(255, 248, 232, .97), rgba(230, 255, 241, .92), rgba(232, 242, 255, .94)),
+        conic-gradient(from 160deg at 50% 12%, rgba(255, 183, 3, .22), rgba(0, 166, 106, .18), rgba(37, 99, 235, .16), rgba(225, 29, 72, .13), rgba(255, 183, 3, .22));
+}
+
+h1,
+h2,
+.brand-name,
+.fp-footer__logo-text {
+    font-family: "Playfair Display", "Poppins", serif;
+}
+
+.nav-scroll-progress {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 3px;
+    z-index: 5;
+    transform: scaleX(0);
+    transform-origin: left center;
+    background: linear-gradient(90deg, var(--lux-gold), var(--lux-emerald), var(--lux-royal), var(--lux-rose));
+    box-shadow: 0 0 18px rgba(37, 99, 235, .28);
+    transition: transform .12s linear;
+}
+
+.navbar-modern {
+    border-bottom: 1px solid rgba(255, 255, 255, .7) !important;
+    background:
+        linear-gradient(115deg, rgba(255,255,255,.78), rgba(236,255,244,.62), rgba(239,246,255,.68)) !important;
+    box-shadow: 0 22px 66px rgba(7, 26, 47, .12), inset 0 1px 0 rgba(255,255,255,.78) !important;
+}
+
+.navbar-modern .brand-name {
+    font-size: 1.58rem;
+    letter-spacing: 0;
+}
+
+.navbar-modern .nav-links {
+    border-radius: 8px !important;
+}
+
+.navbar-modern .nav-link,
+.navbar-modern .nav-link-admin,
+.dropdown-item-modern,
+.fp-social-dot,
+.btn,
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.navbar-modern .nav-link:focus-visible,
+.navbar-modern .nav-link-admin:focus-visible,
+.dropdown-item-modern:focus-visible,
+.hs-btn:focus-visible,
+.fp-social-dot:focus-visible,
+a:focus-visible,
+button:focus-visible {
+    outline: 3px solid rgba(255, 183, 3, .58);
+    outline-offset: 3px;
+}
+
+.card,
+.modal-content,
+.form-control,
+.form-select,
+.fp-footer__brand,
+.fp-footer__map,
+.fp-footer__info li,
+.fp-footer__gov-links a,
+.fp-footer__emergency a,
+.fp-footer__counter {
+    border-radius: 8px !important;
+}
+
+.btn-primary,
+button.btn-primary,
+a.btn-primary {
+    background: linear-gradient(135deg, var(--lux-navy), var(--lux-emerald), var(--lux-royal));
+    box-shadow: 0 18px 44px rgba(0, 166, 106, .22);
+}
+
+.btn-primary:hover,
+button.btn-primary:hover,
+a.btn-primary:hover {
+    background: linear-gradient(135deg, #0b253f, #00b978, #2f6df2);
+}
+
+@media (max-width: 991px) {
+    html {
+        scroll-padding-top: 92px;
+    }
+
+    .navbar-modern .nav-links {
+        border-radius: 8px !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+    }
+}

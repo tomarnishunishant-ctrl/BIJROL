@@ -526,7 +526,7 @@
                 <article class="ww-nominate">
                     <h2>Know another achiever?</h2>
                     <p>Share details of people from Bijrol who should be added to this page with verified information and photographs.</p>
-                    <a class="ww-button" href="/contact">Share an achievement</a>
+                    <a class="ww-button" href="{{ url('/contact') }}">Share an achievement</a>
                 </article>
             </div>
         </div>

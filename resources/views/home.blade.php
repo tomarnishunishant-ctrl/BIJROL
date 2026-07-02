@@ -1457,13 +1457,86 @@
         background: linear-gradient(135deg, #ff9f1c, #f43f5e 48%, #8b5cf6);
     }
 
+    .hs-floating-social {
+        position: absolute;
+        left: max(18px, calc((100vw - 1180px) / 2 - 70px));
+        top: 50%;
+        z-index: 4;
+        display: grid;
+        gap: 10px;
+        transform: translateY(-50%);
+    }
+
+    .hs-floating-social a {
+        width: 42px;
+        height: 42px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        color: #05251f;
+        background: rgba(255, 255, 255, .58);
+        border: 1px solid rgba(255, 255, 255, .72);
+        box-shadow: 0 16px 38px rgba(8, 24, 22, .12), inset 0 1px 0 rgba(255,255,255,.82);
+        backdrop-filter: blur(16px);
+        text-decoration: none;
+        font-size: 11px;
+        font-weight: 950;
+        transition: transform .28s ease, background .28s ease, color .28s ease, box-shadow .28s ease;
+    }
+
+    .hs-floating-social a:hover {
+        color: #fff;
+        background: linear-gradient(135deg, #05251f, #00a66a, #2563eb);
+        transform: translateY(-4px) scale(1.06);
+        box-shadow: 0 22px 50px rgba(37, 99, 235, .22);
+    }
+
+    .hs-scroll-indicator {
+        position: absolute;
+        left: 50%;
+        bottom: 28px;
+        z-index: 4;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: rgba(5, 37, 31, .72);
+        text-decoration: none;
+        font-size: 11px;
+        font-weight: 950;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        transform: translateX(-50%);
+    }
+
+    .hs-scroll-indicator::before {
+        content: "";
+        width: 30px;
+        height: 48px;
+        border-radius: 999px;
+        border: 1px solid rgba(5, 37, 31, .26);
+        background: rgba(255,255,255,.36);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.7);
+    }
+
+    .hs-scroll-indicator::after {
+        content: "";
+        position: absolute;
+        left: 13px;
+        top: 10px;
+        width: 4px;
+        height: 9px;
+        border-radius: 999px;
+        background: linear-gradient(180deg, #ffb703, #00a66a);
+        animation: hsScrollDot 1.7s ease-in-out infinite;
+    }
+
     .hs-portal-visual {
         perspective: 1100px;
     }
 
     .hs-portal-photo {
         border: 1px solid rgba(255,255,255,.78);
-        transform: translateZ(0) rotateX(0) rotateY(0);
+        transform: translateZ(0) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
         transition: transform .45s cubic-bezier(.2,.8,.2,1), box-shadow .45s ease, filter .45s ease;
         box-shadow: 0 28px 76px rgba(8, 24, 22, .2);
     }
@@ -1486,7 +1559,7 @@
     }
 
     .hs-portal-photo:hover {
-        transform: translateY(-8px) rotateX(2deg) rotateY(-2deg);
+        transform: translateY(-8px) rotateX(var(--tilt-x, 2deg)) rotateY(var(--tilt-y, -2deg));
         box-shadow: 0 34px 92px rgba(8, 24, 22, .27);
         filter: saturate(1.08);
     }
@@ -1626,7 +1699,17 @@
         to { transform: translateX(calc((var(--tour-x, 0) * -1%) - 12%)); }
     }
 
+    @keyframes hsScrollDot {
+        0%, 100% { transform: translateY(0); opacity: .45; }
+        50% { transform: translateY(16px); opacity: 1; }
+    }
+
     @media (max-width: 700px) {
+        .hs-floating-social,
+        .hs-scroll-indicator {
+            display: none;
+        }
+
         .hs-premium-mesh {
             inset: -12%;
             filter: blur(24px);
@@ -1659,15 +1742,20 @@
         <div class="hs-hero-bg" aria-hidden="true"></div>
         <div class="hs-premium-mesh" aria-hidden="true"></div>
         <div class="hs-motion-lines" aria-hidden="true"></div>
+        <div class="hs-floating-social" aria-label="Social links">
+            <a href="#" aria-label="Facebook">FB</a>
+            <a href="#" aria-label="Instagram">IG</a>
+            <a href="#" aria-label="YouTube">YT</a>
+        </div>
         <div class="hs-wrap hs-portal-hero">
             <div class="hs-portal-copy hs-reveal">
                 <span class="hs-location-chip">Bijrol Village | Baraut, Baghpat</span>
                 <h1>A useful digital home for Bijrol.</h1>
                 <p>Find village information, panchayat development records, temples, schools, hospitals, gallery, announcements, and public suggestions from one clean homepage.</p>
                 <div class="hs-actions">
-                    <a class="hs-btn primary" href="/panchayat-dashboard">Panchayat Dashboard</a>
-                    <a class="hs-btn" href="/village-voice">Village Voice</a>
-                    <a class="hs-btn" href="/gallery">Open Gallery</a>
+                    <a class="hs-btn primary" href="{{ url('/panchayat-dashboard') }}">Panchayat Dashboard</a>
+                    <a class="hs-btn" href="{{ url('/village-voice') }}">Village Voice</a>
+                    <a class="hs-btn" href="{{ url('/gallery') }}">Open Gallery</a>
                 </div>
                 <div class="hs-mini-facts" aria-label="Bijrol quick facts">
                     <span>PIN 250620</span>
@@ -1701,13 +1789,14 @@
                 </div>
             </div>
         </div>
+        <a class="hs-scroll-indicator" href="#at-a-glance">Scroll</a>
     </section>
 
     <section class="hs-quick" aria-label="Quick village links">
         <div class="hs-wrap">
             <div class="hs-quick-grid">
                 @foreach($quickLinks as $index => $link)
-                    <a class="hs-quick-card hs-glass hs-reveal" href="{{ $link['href'] }}" style="--delay:{{ $index * .03 }}s;">
+                    <a class="hs-quick-card hs-glass hs-reveal" href="{{ url($link['href']) }}" style="--delay:{{ $index * .03 }}s;">
                         <strong>{{ $link['title'] }}</strong>
                         <span>{{ $link['label'] }}</span>
                     </a>
@@ -1813,14 +1902,14 @@
 
             <div class="hs-gallery">
                 <div class="hs-gallery-main">
-                    <a class="hs-photo hs-glass large hs-reveal" href="/gallery">
+                    <a class="hs-photo hs-glass large hs-reveal" href="{{ url('/gallery') }}">
                         <img src="{{ $gallery[0]['image'] }}" alt="{{ $gallery[0]['title'] }}">
                         <span class="hs-photo-info"><span>{{ $gallery[0]['tag'] }}</span><strong>{{ $gallery[0]['title'] }}</strong></span>
                     </a>
                 </div>
                 <div class="hs-gallery-side">
                     @foreach(array_slice($gallery, 1) as $index => $item)
-                        <a class="hs-photo hs-glass hs-reveal" href="/gallery" style="--delay:{{ $index * .04 }}s;">
+                        <a class="hs-photo hs-glass hs-reveal" href="{{ url('/gallery') }}" style="--delay:{{ $index * .04 }}s;">
                             <img src="{{ $item['image'] }}" alt="{{ $item['title'] }}">
                             <span class="hs-photo-info"><span>{{ $item['tag'] }}</span><strong>{{ $item['title'] }}</strong></span>
                         </a>
@@ -1887,7 +1976,7 @@
                     <p>Use the map to orient yourself around the village and explore key website sections from one place.</p>
                     <div class="hs-links">
                         @foreach($featureLinks as $link)
-                            <a class="hs-link-card hs-glass" href="{{ $link['href'] }}">
+                            <a class="hs-link-card hs-glass" href="{{ url($link['href']) }}">
                                 <strong>{{ $link['title'] }}</strong>
                                 <span>{{ $link['label'] }}</span>
                             </a>
@@ -1966,9 +2055,9 @@
                 <h2>A modern portal for a village with deep roots.</h2>
                 <p>Continue into the full website for panchayat development records, history, schools, temples, healthcare, gallery, and public suggestions.</p>
                 <div class="hs-actions" style="justify-content:center;">
-                    <a class="hs-btn primary" href="/about">Read About Bijrol</a>
-                    <a class="hs-btn" href="/gallery">Open Gallery</a>
-                    <a class="hs-btn" href="/village-voice">Share Your Voice</a>
+                    <a class="hs-btn primary" href="{{ url('/about') }}">Read About Bijrol</a>
+                    <a class="hs-btn" href="{{ url('/gallery') }}">Open Gallery</a>
+                    <a class="hs-btn" href="{{ url('/village-voice') }}">Share Your Voice</a>
                 </div>
             </div>
         </div>
@@ -2089,6 +2178,19 @@ document.addEventListener('DOMContentLoaded', function () {
         window.addEventListener('scroll', () => {
             root.style.setProperty('--scroll', String(window.scrollY));
         }, { passive: true });
+
+        const parallaxItems = root.querySelectorAll('.hs-portal-photo, .hs-portal-note');
+        root.querySelector('.hs-hero')?.addEventListener('pointermove', (event) => {
+            const x = (event.clientX / window.innerWidth - .5) * 2;
+            const y = (event.clientY / window.innerHeight - .5) * 2;
+            root.style.setProperty('--mouse-x', x.toFixed(3));
+            root.style.setProperty('--mouse-y', y.toFixed(3));
+            parallaxItems.forEach((item, index) => {
+                const depth = index === 0 ? 14 : 8;
+                item.style.setProperty('--tilt-x', (y * -depth).toFixed(2) + 'deg');
+                item.style.setProperty('--tilt-y', (x * depth).toFixed(2) + 'deg');
+            });
+        });
     }
 });
 </script>
