@@ -11,6 +11,10 @@ services:
         value: production
       - key: APP_DEBUG
         value: false
+      - key: APP_URL
+        value: https://bijrol-village-portal-k56g.onrender.com
+      - key: ASSET_URL
+        value: https://bijrol-village-portal-k56g.onrender.com
       - key: DB_CONNECTION
         value: sqlite
       - key: SESSION_DRIVER
