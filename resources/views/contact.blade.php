@@ -380,6 +380,17 @@
 
 @section('content')
 <div class="contact-page">
+    <div class="contact-nature-scene" aria-hidden="true">
+        <span class="contact-sun"></span>
+        <span class="contact-cloud cloud-one"></span>
+        <span class="contact-cloud cloud-two"></span>
+        <span class="contact-cloud cloud-three"></span>
+        <span class="contact-bird bird-one"></span>
+        <span class="contact-bird bird-two"></span>
+        <span class="contact-bird bird-three"></span>
+        <span class="contact-flower-field"></span>
+    </div>
+
     <section class="contact-hero">
         <div class="container">
             <div class="contact-grid">

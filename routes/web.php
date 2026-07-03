@@ -165,16 +165,6 @@ Route::post('/village-voice', function (Request $request) {
         ->with('success', 'Aapka sujhav submit ho gaya hai. Dhanyavaad!');
 })->name('village-voice.store');
 
-// Who's Who page
-Route::get('/whos-who', function () {
-    return view('whos-who', [
-        'profiles' => Achiever::where('is_published', true)
-            ->orderBy('display_order')
-            ->orderBy('name')
-            ->get(),
-    ]);
-})->name('whos-who');
-
 // Government Employees page
 Route::get('/government-employees', function () {
     return view('government-employees', [

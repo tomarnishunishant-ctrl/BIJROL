@@ -613,6 +613,31 @@
 
 @section('content')
 <div class="employees-page">
+    <div class="employees-service-scene" aria-hidden="true">
+        <span class="service-orbit orbit-one"></span>
+        <span class="service-orbit orbit-two"></span>
+        <span class="service-badge badge-police">Police</span>
+        <span class="service-badge badge-doctor">Doctor</span>
+        <span class="service-badge badge-engineer">Engineer</span>
+        <span class="service-person service-police">
+            <span class="service-head"></span>
+            <span class="service-cap"></span>
+            <span class="service-body"></span>
+            <span class="service-symbol">PS</span>
+        </span>
+        <span class="service-person service-doctor">
+            <span class="service-head"></span>
+            <span class="service-body"></span>
+            <span class="service-symbol">+</span>
+        </span>
+        <span class="service-person service-engineer">
+            <span class="service-head"></span>
+            <span class="service-helmet"></span>
+            <span class="service-body"></span>
+            <span class="service-symbol">EN</span>
+        </span>
+    </div>
+
     <section class="employees-hero">
         <div class="container">
             <div class="employees-hero-grid">

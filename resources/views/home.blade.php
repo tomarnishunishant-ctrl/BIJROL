@@ -53,6 +53,7 @@
     ];
 
     $gallery = [
+        ['image' => $localImage('shahmal.jpeg'), 'title' => 'Baba Shahmal Singh Tomar', 'tag' => '1857 Legacy'],
         ['image' => $localImage('t1.jpeg'), 'title' => 'Radha Krishna Darshan', 'tag' => 'Temple'],
         ['image' => $localImage('t2.jpeg'), 'title' => 'Temple Lights', 'tag' => 'Devotion'],
         ['image' => $localImage('home-hero-generated.png'), 'title' => 'Village Road And Fields', 'tag' => 'Landscape'],
@@ -1890,19 +1891,24 @@
             </div>
 
             <div class="hs-reveal" style="--delay:.08s;">
-                <div class="hs-portal-visual" aria-label="Bijrol village photo highlights">
-                    <figure class="hs-portal-photo">
+                <div class="hs-portal-visual hs-portal-slider" aria-label="Bijrol village photo highlights">
+                    <figure class="hs-portal-slide is-active" data-hero-slide>
                         <img src="{{ $localImage('t1.jpeg') }}" alt="Radha Krishna darshan">
-                        <span>Radha Krishna Temple Darshan</span>
+                        <figcaption>Radha Krishna Temple Darshan</figcaption>
                     </figure>
-                    <figure class="hs-portal-photo">
+                    <figure class="hs-portal-slide" data-hero-slide>
                         <img src="{{ $localImage('t2.jpeg') }}" alt="Temple lights in Bijrol">
-                        <span>Temple Lights</span>
+                        <figcaption>Temple Lights</figcaption>
                     </figure>
-                    <figure class="hs-portal-photo">
-                        <img src="{{ $localImage('bijrol.jpg.png') }}" alt="Bijrol village identity">
-                        <span>Bijrol Identity</span>
+                    <figure class="hs-portal-slide" data-hero-slide>
+                        <img src="{{ $localImage('shahmal.jpeg') }}" alt="Baba Shahmal Singh Tomar portrait">
+                        <figcaption>Baba Shahmal Singh Tomar Legacy</figcaption>
                     </figure>
+                    <div class="hs-portal-dots" aria-hidden="true">
+                        <span class="is-active" data-hero-dot></span>
+                        <span data-hero-dot></span>
+                        <span data-hero-dot></span>
+                    </div>
                 </div>
                 <div class="hs-portal-note">
                     <strong>1857</strong>
@@ -1917,19 +1923,33 @@
     </section>
 
     <section class="hs-top-heritage" aria-label="Bijrol heritage introduction">
+        <div class="hs-heritage-orb hs-heritage-orb-one" aria-hidden="true"></div>
+        <div class="hs-heritage-orb hs-heritage-orb-two" aria-hidden="true"></div>
         <div class="hs-wrap hs-top-heritage-grid">
             <article class="hs-top-heritage-main">
-                <span class="hs-kicker" style="color:var(--green)">Bijrol Heritage</span>
+                <div class="hs-heritage-label">
+                    <span class="hs-kicker" style="color:var(--green)">Bijrol Heritage</span>
+                    <span class="hs-heritage-year">1857</span>
+                </div>
                 <h2>A village of history, culture, and freedom memory.</h2>
-                <p>Bijrol, located in Baghpat district of Uttar Pradesh, is not just an ordinary rural settlement. It is an important heritage village of western Uttar Pradesh, known for its history, culture, and connection with the freedom struggle.</p>
-                <p>This is the soil where Baba Shahmal Singh Tomar, one of the great leaders of the 1857 uprising, led organized resistance against foreign rule. Because of this legacy, the name of Bijrol is remembered not only in local history, but also with respect in the wider history of the Indian freedom movement.</p>
-                <p>The true identity of a village is not created only by its population, fields, or houses. It is shaped by its historical heritage, cultural traditions, religious places, old routes, ponds, memorials, oral stories, and the people who gave honor to that land. In this sense, Bijrol is a deeply rich village.</p>
-                <p>Although many old structures have disappeared with time, many historic places have merged into modern construction, and several oral traditions have slowly faded, the soil of Bijrol still carries many signs of its proud past. What is needed now is to recognize them, preserve them, and carry them to future generations.</p>
+                <div class="hs-heritage-story">
+                    <p>Bijrol, located in Baghpat district of Uttar Pradesh, is not just an ordinary rural settlement. It is an important heritage village of western Uttar Pradesh, known for its history, culture, and connection with the freedom struggle.</p>
+                    <p>This is the soil where Baba Shahmal Singh Tomar, one of the great leaders of the 1857 uprising, led organized resistance against foreign rule. Because of this legacy, the name of Bijrol is remembered not only in local history, but also with respect in the wider history of the Indian freedom movement.</p>
+                    <p>The true identity of a village is not created only by its population, fields, or houses. It is shaped by its historical heritage, cultural traditions, religious places, old routes, ponds, memorials, oral stories, and the people who gave honor to that land. In this sense, Bijrol is a deeply rich village.</p>
+                    <p>Although many old structures have disappeared with time, many historic places have merged into modern construction, and several oral traditions have slowly faded, the soil of Bijrol still carries many signs of its proud past. What is needed now is to recognize them, preserve them, and carry them to future generations.</p>
+                </div>
             </article>
 
             <aside class="hs-top-heritage-side">
+                <figure class="hs-heritage-portrait">
+                    <img src="{{ $localImage('shahmal.jpeg') }}" alt="Baba Shahmal Singh Tomar portrait">
+                    <figcaption>
+                        <strong>Baba Shahmal Singh Tomar</strong>
+                        <span>Freedom memory of Bijrol</span>
+                    </figcaption>
+                </figure>
                 @foreach($topHeritageCards as $card)
-                    <div class="hs-top-heritage-card">
+                    <div class="hs-top-heritage-card" style="--delay:{{ $loop->index * .12 }}s;">
                         <strong>{{ $card['title'] }}</strong>
                         <span>{{ $card['text'] }}</span>
                     </div>
@@ -2021,33 +2041,6 @@
                     <h3 data-timeline-title>{{ $timeline[0]['title'] }}</h3>
                     <p data-timeline-text>{{ $timeline[0]['text'] }}</p>
                 </article>
-            </div>
-        </div>
-    </section>
-
-    <section class="hs-section alt" id="gallery">
-        <div class="hs-wrap">
-            <div class="hs-heading hs-reveal">
-                <span class="hs-kicker">Premium Gallery</span>
-                <h2>Visual stories from Bijrol.</h2>
-                <p>A polished image wall for landscape, heritage, public places, and community moments.</p>
-            </div>
-
-            <div class="hs-gallery">
-                <div class="hs-gallery-main">
-                    <a class="hs-photo hs-glass large hs-reveal" href="{{ url('/gallery') }}">
-                        <img src="{{ $gallery[0]['image'] }}" alt="{{ $gallery[0]['title'] }}">
-                        <span class="hs-photo-info"><span>{{ $gallery[0]['tag'] }}</span><strong>{{ $gallery[0]['title'] }}</strong></span>
-                    </a>
-                </div>
-                <div class="hs-gallery-side">
-                    @foreach(array_slice($gallery, 1) as $index => $item)
-                        <a class="hs-photo hs-glass hs-reveal" href="{{ url('/gallery') }}" style="--delay:{{ $index * .04 }}s;">
-                            <img src="{{ $item['image'] }}" alt="{{ $item['title'] }}">
-                            <span class="hs-photo-info"><span>{{ $item['tag'] }}</span><strong>{{ $item['title'] }}</strong></span>
-                        </a>
-                    @endforeach
-                </div>
             </div>
         </div>
     </section>
@@ -2176,9 +2169,9 @@
     <section class="hs-section">
         <div class="hs-wrap">
             <div class="hs-cta hs-glass hs-reveal">
-                <span class="hs-kicker">Explore Bijrol</span>
-                <h2>A modern portal for a village with deep roots.</h2>
-                <p>Continue into the full website for panchayat development records, history, schools, temples, healthcare, gallery, and public suggestions.</p>
+                <span class="hs-kicker">Bijrol Digital Portal</span>
+                <h2>Explore heritage, services, people, and village updates in one place.</h2>
+                <p>Open the full Bijrol experience with history, Baba Shahmal Singh Tomar legacy, schools, temples, healthcare, gallery, contact details, and public suggestions.</p>
                 <div class="hs-actions" style="justify-content:center;">
                     <a class="hs-btn primary" href="{{ url('/about') }}">Read About Bijrol</a>
                     <a class="hs-btn" href="{{ url('/gallery') }}">Open Gallery</a>
@@ -2299,12 +2292,27 @@ document.addEventListener('DOMContentLoaded', function () {
         showQuote(quoteIndex);
     });
 
+    const heroSlides = Array.from(root.querySelectorAll('[data-hero-slide]'));
+    const heroDots = Array.from(root.querySelectorAll('[data-hero-dot]'));
+    let heroSlideIndex = 0;
+    const showHeroSlide = (next) => {
+        heroSlides.forEach((slide, index) => slide.classList.toggle('is-active', index === next));
+        heroDots.forEach((dot, index) => dot.classList.toggle('is-active', index === next));
+    };
+
+    if (!reduced && heroSlides.length > 1) {
+        window.setInterval(() => {
+            heroSlideIndex = (heroSlideIndex + 1) % heroSlides.length;
+            showHeroSlide(heroSlideIndex);
+        }, 1000);
+    }
+
     if (!reduced) {
         window.addEventListener('scroll', () => {
             root.style.setProperty('--scroll', String(window.scrollY));
         }, { passive: true });
 
-        const parallaxItems = root.querySelectorAll('.hs-portal-photo, .hs-portal-note');
+        const parallaxItems = root.querySelectorAll('.hs-portal-slider, .hs-portal-note');
         root.querySelector('.hs-hero')?.addEventListener('pointermove', (event) => {
             const x = (event.clientX / window.innerWidth - .5) * 2;
             const y = (event.clientY / window.innerHeight - .5) * 2;

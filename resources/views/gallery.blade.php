@@ -6,6 +6,7 @@
     $localImage = fn ($file) => asset('image/' . $file);
 
     $galleryItems = [
+        ['title' => 'Baba Shahmal Singh Tomar', 'category' => 'heritage', 'badge' => '1857 Legacy', 'image' => $localImage('shahmal.jpeg'), 'text' => 'A portrait memory of Baba Shahmal Singh Tomar, remembered for farmer unity, courage, and leadership in the 1857 resistance.'],
         ['title' => 'Radha Krishna Darshan', 'category' => 'heritage', 'badge' => 'Temple', 'image' => $localImage('t1.jpeg'), 'text' => 'Radha Krishna temple darshan with decorated idols and devotional setting.'],
         ['title' => 'Radha Krishna Temple Lights', 'category' => 'heritage', 'badge' => 'Temple', 'image' => $localImage('t2.jpeg'), 'text' => 'Temple view decorated with lights during an evening devotional moment.'],
         ['title' => 'Fields and Village Road', 'category' => 'nature', 'badge' => 'Nature', 'image' => $localImage('home-hero-generated.png'), 'text' => 'A warm editorial view of fields, village road, and the calm rural character of Bijrol.'],
@@ -391,9 +392,9 @@
                 <p>Explore Bijrol through original local photos and a polished editorial hero visual: fields, heritage, services, sports, and community life.</p>
             </div>
             <aside class="gallery-panel">
-                <img src="{{ $localImage('bijrol.jpg.png') }}" alt="Bijrol village gallery preview">
-                <strong>Original village visuals</strong>
-                <span>A cleaner gallery using project images instead of generic stock photos.</span>
+                <img src="{{ $localImage('shahmal.jpeg') }}" alt="Baba Shahmal Singh Tomar gallery preview">
+                <strong>1857 Heritage Archive</strong>
+                <span>A cleaner gallery using project images, including the memory of Baba Shahmal Singh Tomar.</span>
             </aside>
         </div>
     </section>

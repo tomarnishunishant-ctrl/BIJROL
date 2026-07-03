@@ -36,7 +36,6 @@
                 <a href="{{ route('admin.achievers.index') }}">Who's Who <span>Manage</span></a>
                 <a href="{{ route('admin.news.index') }}">News <span>Manage</span></a>
                 <a href="{{ route('admin.events.index') }}">Events <span>Manage</span></a>
-                <a href="{{ url('/whos-who') }}">Public Page <span>View</span></a>
             </nav>
             <form method="POST" action="{{ route('admin.logout') }}">@csrf<button type="submit" class="admin-logout">Logout <span>Exit</span></button></form>
         </aside>

@@ -62,7 +62,7 @@
                 <h1>{{ $achiever->name }}</h1>
                 <p>{{ $achiever->short_description }}</p>
                 <div class="person-actions">
-                    <a class="person-btn primary" href="{{ url('/whos-who') }}">Back to Who's Who</a>
+                    <a class="person-btn primary" href="{{ url('/') }}">Back to Home</a>
                     <a class="person-btn secondary" href="{{ url('/contact') }}">Share verified details</a>
                 </div>
             </div>
@@ -136,7 +136,7 @@
             <div class="person-cta">
                 <h2>More Achievers From Bijrol</h2>
                 <p>Explore other profiles and help keep this section updated with verified achievements, photos, and public records.</p>
-                <a class="person-btn primary" href="{{ url('/whos-who') }}">View all profiles</a>
+                <a class="person-btn primary" href="{{ url('/') }}">Back to Home</a>
             </div>
         </div>
     </section>

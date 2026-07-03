@@ -72,7 +72,6 @@
           <li><a href="{{ url('/temples') }}">Temples</a></li>
           <li><a href="{{ url('/hospitals') }}">Healthcare</a></li>
           <li><a href="{{ url('/sport-ground') }}">Sports Ground</a></li>
-          <li><a href="{{ url('/whos-who') }}">Village Leaders</a></li>
         </ul>
       </div>
 
@@ -223,7 +222,7 @@
         var code = Number(currentWeather.weather_code);
         var weather = weatherCodeMap[code] || ['Weather updated', 'LIVE'];
 
-        setText('[data-footer-weather-temp]', Number.isFinite(currentWeather.temperature_2m) ? Math.round(currentWeather.temperature_2m) + '°C' : '--');
+        setText('[data-footer-weather-temp]', Number.isFinite(currentWeather.temperature_2m) ? Math.round(currentWeather.temperature_2m) + String.fromCharCode(176) + 'C' : '--');
         setText('[data-footer-weather-condition]', weather[0]);
         setText('[data-footer-weather-icon]', weather[1]);
         setText('[data-footer-weather-humidity]', Number.isFinite(currentWeather.relative_humidity_2m) ? currentWeather.relative_humidity_2m + '%' : '--');

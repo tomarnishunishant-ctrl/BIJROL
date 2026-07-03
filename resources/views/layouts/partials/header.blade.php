@@ -1,4 +1,4 @@
-<nav class="navbar-modern" id="mainNavbar">
+<nav class="navbar-modern" id="mainNavbar" aria-label="Primary navigation">
     <div class="nav-scroll-progress" id="navScrollProgress" aria-hidden="true"></div>
     <div class="container">
         <a class="brand-wrapper" href="{{ url('/') }}">
@@ -15,21 +15,20 @@
             <span></span>
         </button>
 
-        <ul class="nav-links" id="navLinks">
+        <ul class="nav-links" id="navLinks" role="list">
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="{{ url('/') }}">
+                <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="{{ url('/') }}" @if(request()->is('/')) aria-current="page" @endif>
                     <span class="nav-icon">HM</span>
                     <span class="nav-text">Home</span>
                 </a>
             </li>
             <li class="nav-item nav-dropdown" id="aboutDropdown">
-                <a class="nav-link dropdown-toggle {{ request()->is('about') || request()->is('whos-who') || request()->is('schools') || request()->is('temples') || request()->is('sport-ground') || request()->is('hospitals') ? 'active' : '' }}" href="javascript:void(0)">
+                <a class="nav-link dropdown-toggle {{ request()->is('about') || request()->is('schools') || request()->is('temples') || request()->is('sport-ground') || request()->is('hospitals') ? 'active' : '' }}" href="javascript:void(0)" role="button" aria-haspopup="true" aria-expanded="false">
                     <span class="nav-icon">AB</span>
                     <span class="nav-text">About</span>
                 </a>
                 <ul class="dropdown-menu-modern">
                     <li><a class="dropdown-item-modern" href="{{ url('/about#information') }}"><span class="dropdown-icon">IN</span> Information</a></li>
-                    <li><a class="dropdown-item-modern" href="{{ url('/whos-who') }}"><span class="dropdown-icon">WW</span> Who's Who</a></li>
                     <li><a class="dropdown-item-modern" href="{{ url('/schools') }}"><span class="dropdown-icon">SC</span> Schools</a></li>
                     <li><a class="dropdown-item-modern" href="{{ url('/temples') }}"><span class="dropdown-icon">TM</span> Temples</a></li>
                     <li><a class="dropdown-item-modern" href="{{ url('/sport-ground') }}"><span class="dropdown-icon">SP</span> Sport Ground</a></li>
@@ -37,33 +36,27 @@
                 </ul>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('gallery') ? 'active' : '' }}" href="{{ url('/gallery') }}">
+                <a class="nav-link {{ request()->is('gallery') ? 'active' : '' }}" href="{{ url('/gallery') }}" @if(request()->is('gallery')) aria-current="page" @endif>
                     <span class="nav-icon">GL</span>
                     <span class="nav-text">Gallery</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('government-employees') ? 'active' : '' }}" href="{{ url('/government-employees') }}">
+                <a class="nav-link {{ request()->is('government-employees') ? 'active' : '' }}" href="{{ url('/government-employees') }}" @if(request()->is('government-employees')) aria-current="page" @endif>
                     <span class="nav-icon">GE</span>
                     <span class="nav-text">Govt Employees</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('contact') ? 'active' : '' }}" href="{{ url('/contact') }}">
+                <a class="nav-link {{ request()->is('contact') ? 'active' : '' }}" href="{{ url('/contact') }}" @if(request()->is('contact')) aria-current="page" @endif>
                     <span class="nav-icon">CT</span>
                     <span class="nav-text">Contact</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('village-voice') ? 'active' : '' }}" href="{{ url('/village-voice') }}">
+                <a class="nav-link {{ request()->is('village-voice') ? 'active' : '' }}" href="{{ url('/village-voice') }}" @if(request()->is('village-voice')) aria-current="page" @endif>
                     <span class="nav-icon">VV</span>
                     <span class="nav-text">Village Voice</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {{ request()->is('panchayat-dashboard') ? 'active' : '' }}" href="{{ url('/panchayat-dashboard') }}">
-                    <span class="nav-icon">PD</span>
-                    <span class="nav-text">Panchayat Dashboard</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -112,7 +105,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     return;
                 }
                 e.preventDefault();
-                aboutDropdown.classList.toggle('open');
+                const isDropdownOpen = aboutDropdown.classList.toggle('open');
+                const dropdownToggle = aboutDropdown.querySelector('.dropdown-toggle');
+                if (dropdownToggle) dropdownToggle.setAttribute('aria-expanded', String(isDropdownOpen));
             }
         });
     }
@@ -122,7 +117,11 @@ document.addEventListener('DOMContentLoaded', function() {
             navLinks.classList.remove('open');
             toggler.classList.remove('active');
             toggler.setAttribute('aria-expanded', 'false');
-            if (aboutDropdown) aboutDropdown.classList.remove('open');
+            if (aboutDropdown) {
+                aboutDropdown.classList.remove('open');
+                const dropdownToggle = aboutDropdown.querySelector('.dropdown-toggle');
+                if (dropdownToggle) dropdownToggle.setAttribute('aria-expanded', 'false');
+            }
         }
     });
 
@@ -133,7 +132,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 navLinks.classList.remove('open');
                 toggler.classList.remove('active');
                 toggler.setAttribute('aria-expanded', 'false');
-                if (aboutDropdown) aboutDropdown.classList.remove('open');
+                if (aboutDropdown) {
+                    aboutDropdown.classList.remove('open');
+                    const dropdownToggle = aboutDropdown.querySelector('.dropdown-toggle');
+                    if (dropdownToggle) dropdownToggle.setAttribute('aria-expanded', 'false');
+                }
             }
         });
     });

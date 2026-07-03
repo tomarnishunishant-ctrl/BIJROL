@@ -40,10 +40,15 @@
 
     <!-- Global Responsive CSS -->
     <link href="{{ asset('css/responsive.css') }}" rel="stylesheet">
-    
+
     @stack('styles')
+
+    <!-- Premium portal design system -->
+    <link href="{{ asset('css/premium-portal.css') }}" rel="stylesheet">
 </head>
 <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
     @include('layouts.partials.header')
 
     <main id="main-content">
@@ -62,6 +67,7 @@
             });
         });
     </script>
+    <script src="{{ asset('js/premium-portal.js') }}"></script>
 
     @stack('scripts')
 </body>

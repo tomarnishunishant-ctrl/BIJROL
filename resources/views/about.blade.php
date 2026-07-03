@@ -132,6 +132,12 @@
         ['label' => 'Legacy', 'text' => 'His sacrifice remains a source of pride and inspiration for Bijrol and Baghpat.'],
     ];
 
+    $infoTimeline = [
+        ['year' => 'Doab Roots', 'title' => 'Agriculture and village culture', 'text' => 'Fertile Ganga-Yamuna Doab soil shaped Bijrol through farming, chaupals, ponds, public faith, and community cooperation.'],
+        ['year' => '1857', 'title' => 'Organized rural resistance', 'text' => 'Baba Shahmal Singh Tomar connected farmers, villagers, and rural youth around courage, justice, and self-respect.'],
+        ['year' => 'Today', 'title' => 'Digital village identity', 'text' => 'The same living heritage is now presented through a modern portal for residents, visitors, students, and future generations.'],
+    ];
+
     $heritageParagraphs = [
         'The year 1857 is remembered in Indian history as the beginning of an era that gave a new direction to the national consciousness against foreign rule. Although the first spark of this struggle rose from the military cantonment of Meerut, it soon moved beyond the limits of a military rebellion and became a broad people-led movement of farmers, villagers, landholders, and ordinary citizens. In western Uttar Pradesh, one of the most influential leaders of this mass movement was Baba Shahmal Singh Tomar. He understood that British rule could not be challenged by soldiers alone; the farmers and common people living in every village also needed to be organized.',
         'At that time, the policies of the British East India Company had deeply affected rural life. Heavy revenue demands on farmers, administrative harshness, and economic exploitation were increasing public anger. Shahmal Singh tried to transform this dissatisfaction not into random violence, but into the strength of organized resistance. He reached out to people from many nearby villages and gave them the confidence that if society stood united against injustice, foreign rule could be challenged.',
@@ -1938,7 +1944,24 @@
 @endpush
 
 @section('content')
-<main class="info-page">
+<main class="info-page min-h-screen overflow-hidden">
+    <div class="info-premium-scene" aria-hidden="true">
+        <span class="info-scene-orb orb-saffron"></span>
+        <span class="info-scene-orb orb-green"></span>
+        <span class="info-scene-orb orb-blue"></span>
+        <span class="info-scene-ring ring-one"></span>
+        <span class="info-scene-ring ring-two"></span>
+        <span class="info-scene-dot dot-one"></span>
+        <span class="info-scene-dot dot-two"></span>
+        <span class="info-scene-dot dot-three"></span>
+        <span class="info-sky-cloud cloud-a"></span>
+        <span class="info-sky-cloud cloud-b"></span>
+        <span class="info-big-tree"></span>
+        <span class="info-big-bird bird-a"></span>
+        <span class="info-big-bird bird-b"></span>
+        <span class="info-big-bird bird-c"></span>
+    </div>
+
     <section class="info-hero" id="information">
         <div class="info-shell info-hero-grid">
             <div class="info-hero-copy">
@@ -1998,11 +2021,38 @@
     <section class="info-stats">
         <div class="info-shell info-stats-grid">
             @foreach($stats as $stat)
-                <article class="info-stat">
-                    <strong>{{ $stat['value'] }}</strong>
+                @php
+                    $countTarget = preg_replace('/[^0-9.]/', '', $stat['value']);
+                    $countDecimals = str_contains($stat['value'], '.') ? 2 : 0;
+                    $countSuffix = str_contains($stat['value'], '%') ? '%' : '';
+                @endphp
+                <article class="info-stat motion-reveal">
+                    <strong><span data-info-count data-target="{{ $countTarget }}" data-decimals="{{ $countDecimals }}">0</span>{{ $countSuffix }}</strong>
                     <span>{{ $stat['label'] }}</span>
                 </article>
             @endforeach
+        </div>
+    </section>
+
+    <section class="info-section info-motion-timeline" aria-label="Bijrol heritage timeline">
+        <div class="info-shell">
+            <div class="info-heading">
+                <div>
+                    <span class="info-kicker">Heritage Timeline</span>
+                    <h2>From Doab roots to a modern digital identity.</h2>
+                </div>
+                <p>A compact animated timeline connecting Bijrol's agricultural culture, 1857 memory, and present-day village portal identity.</p>
+            </div>
+
+            <div class="info-timeline-track">
+                @foreach($infoTimeline as $item)
+                    <article class="info-timeline-card motion-reveal" style="--delay: {{ $loop->index * .12 }}s;">
+                        <span>{{ $item['year'] }}</span>
+                        <h3>{{ $item['title'] }}</h3>
+                        <p>{{ $item['text'] }}</p>
+                    </article>
+                @endforeach
+            </div>
         </div>
     </section>
 
@@ -2065,10 +2115,31 @@
             </div>
 
             <div class="info-heritage-grid">
+                <aside class="info-heritage-figure">
+                    <img src="{{ $localImage('shahmal.jpeg') }}" alt="Baba Shahmal Singh Tomar portrait">
+                    <div>
+                        <span>1857 Legacy</span>
+                        <strong>Baba Shahmal Singh Tomar</strong>
+                        <p>Farmer unity, public leadership, courage, and self-respect remain central to Bijrol's historic identity.</p>
+                    </div>
+                </aside>
+
                 <article class="info-heritage-story">
-                    @foreach($heritageParagraphs as $paragraph)
-                        <p>{{ $paragraph }}</p>
-                    @endforeach
+                    <div class="info-heritage-story-grid">
+                        @foreach(array_slice($heritageParagraphs, 0, 4) as $index => $paragraph)
+                            <section class="info-heritage-story-card" style="--delay: {{ $index * .08 }}s;">
+                                <em>{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}</em>
+                                <p>{{ $paragraph }}</p>
+                            </section>
+                        @endforeach
+                    </div>
+
+                    <details class="info-heritage-more">
+                        <summary>Read full historical note</summary>
+                        @foreach(array_slice($heritageParagraphs, 4) as $paragraph)
+                            <p>{{ $paragraph }}</p>
+                        @endforeach
+                    </details>
                 </article>
 
                 <aside class="info-heritage-panel">
@@ -2227,17 +2298,79 @@ document.addEventListener('DOMContentLoaded', function () {
     const toggle = document.querySelector('[data-story-toggle]');
     const story = document.querySelector('[data-expandable-story]');
 
-    if (!toggle || !story) {
+    if (toggle && story) {
+        toggle.addEventListener('click', function () {
+            const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+
+            story.classList.toggle('is-collapsed', isExpanded);
+            toggle.setAttribute('aria-expanded', String(!isExpanded));
+            toggle.textContent = isExpanded ? 'See more' : 'Show less';
+        });
+    }
+
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const revealItems = document.querySelectorAll('.info-page .motion-reveal');
+    const counters = document.querySelectorAll('[data-info-count]');
+
+    const revealNow = (element) => element.classList.add('is-visible');
+
+    if (reduced || !('IntersectionObserver' in window)) {
+        revealItems.forEach(revealNow);
+        counters.forEach((counter) => {
+            const target = Number(counter.dataset.target || 0);
+            const decimals = Number(counter.dataset.decimals || 0);
+            counter.textContent = target.toLocaleString('en-IN', {
+                minimumFractionDigits: decimals,
+                maximumFractionDigits: decimals
+            });
+        });
         return;
     }
 
-    toggle.addEventListener('click', function () {
-        const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                revealNow(entry.target);
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.16, rootMargin: '0px 0px -50px 0px' });
 
-        story.classList.toggle('is-collapsed', isExpanded);
-        toggle.setAttribute('aria-expanded', String(!isExpanded));
-        toggle.textContent = isExpanded ? 'See more' : 'Show less';
-    });
+    revealItems.forEach((item) => revealObserver.observe(item));
+
+    const animateCounter = (counter) => {
+        const target = Number(counter.dataset.target || 0);
+        const decimals = Number(counter.dataset.decimals || 0);
+        const start = performance.now();
+        const duration = 1200;
+
+        const tick = (now) => {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const value = target * eased;
+            counter.textContent = value.toLocaleString('en-IN', {
+                minimumFractionDigits: decimals,
+                maximumFractionDigits: decimals
+            });
+
+            if (progress < 1) {
+                requestAnimationFrame(tick);
+            }
+        };
+
+        requestAnimationFrame(tick);
+    };
+
+    const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                animateCounter(entry.target);
+                counterObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.4 });
+
+    counters.forEach((counter) => counterObserver.observe(counter));
 });
 </script>
 @endpush
