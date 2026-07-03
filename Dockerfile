@@ -12,7 +12,6 @@ RUN apt-get update \
     && docker-php-ext-install \
         intl \
         pdo_mysql \
-        pdo_pgsql \
         pdo_sqlite \
         zip \
     && a2enmod rewrite \
