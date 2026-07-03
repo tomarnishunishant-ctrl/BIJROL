@@ -28,6 +28,27 @@
           allowfullscreen
           title="BIJROL Village Google Map"></iframe>
       </div>
+
+      <div class="fp-footer__weather" aria-label="Bijrol live weather">
+        <div class="fp-footer__weather-head">
+          <h6 class="fp-footer__heading">Bijrol Weather</h6>
+          <a href="https://www.google.com/search?q=Bijrol+Baghpat+weather+forecast" target="_blank" rel="noopener">Forecast</a>
+        </div>
+        <div class="fp-weather-card">
+          <div>
+            <span class="fp-weather-label">Live Weather</span>
+            <strong class="fp-weather-temp" data-footer-weather-temp>--</strong>
+            <p data-footer-weather-condition>Loading weather...</p>
+          </div>
+          <span class="fp-weather-icon" data-footer-weather-icon>WX</span>
+        </div>
+        <div class="fp-weather-meta">
+          <div><span>Humidity</span><strong data-footer-weather-humidity>--</strong></div>
+          <div><span>Wind</span><strong data-footer-weather-wind>--</strong></div>
+          <div><span>Sunrise</span><strong data-footer-weather-sunrise>--</strong></div>
+          <div><span>Sunset</span><strong data-footer-weather-sunset>--</strong></div>
+        </div>
+      </div>
     </div>
 
     <div class="fp-footer__grid">
@@ -143,5 +164,76 @@
     var current = parseInt(localStorage.getItem(key) || '0', 10) + 1;
     localStorage.setItem(key, current);
     counter.textContent = String(current).padStart(6, '0');
+  })();
+
+  (function () {
+    var root = document.querySelector('.fp-footer');
+    if (!root || !root.querySelector('[data-footer-weather-temp]')) return;
+
+    var weatherCodeMap = {
+      0: ['Clear sky', 'SUN'],
+      1: ['Mainly clear', 'SUN'],
+      2: ['Partly cloudy', 'CLD'],
+      3: ['Cloudy', 'CLD'],
+      45: ['Fog', 'FOG'],
+      48: ['Rime fog', 'FOG'],
+      51: ['Light drizzle', 'DRZ'],
+      53: ['Drizzle', 'DRZ'],
+      55: ['Heavy drizzle', 'DRZ'],
+      61: ['Light rain', 'RAIN'],
+      63: ['Rain', 'RAIN'],
+      65: ['Heavy rain', 'RAIN'],
+      80: ['Rain showers', 'RAIN'],
+      81: ['Rain showers', 'RAIN'],
+      82: ['Heavy showers', 'RAIN'],
+      95: ['Thunderstorm', 'STRM']
+    };
+
+    var setText = function (selector, value) {
+      var el = root.querySelector(selector);
+      if (el) el.textContent = value;
+    };
+
+    var formatTime = function (value) {
+      if (!value) return '--';
+      return new Intl.DateTimeFormat('en-IN', {
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true,
+        timeZone: 'Asia/Kolkata'
+      }).format(new Date(value));
+    };
+
+    var weatherUrl = new URL('https://api.open-meteo.com/v1/forecast');
+    weatherUrl.search = new URLSearchParams({
+      latitude: '29.10',
+      longitude: '77.26',
+      current: 'temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m',
+      daily: 'sunrise,sunset',
+      timezone: 'Asia/Kolkata'
+    }).toString();
+
+    fetch(weatherUrl)
+      .then(function (response) {
+        if (!response.ok) throw new Error('Weather request failed');
+        return response.json();
+      })
+      .then(function (data) {
+        var currentWeather = data.current || {};
+        var code = Number(currentWeather.weather_code);
+        var weather = weatherCodeMap[code] || ['Weather updated', 'LIVE'];
+
+        setText('[data-footer-weather-temp]', Number.isFinite(currentWeather.temperature_2m) ? Math.round(currentWeather.temperature_2m) + '°C' : '--');
+        setText('[data-footer-weather-condition]', weather[0]);
+        setText('[data-footer-weather-icon]', weather[1]);
+        setText('[data-footer-weather-humidity]', Number.isFinite(currentWeather.relative_humidity_2m) ? currentWeather.relative_humidity_2m + '%' : '--');
+        setText('[data-footer-weather-wind]', Number.isFinite(currentWeather.wind_speed_10m) ? Math.round(currentWeather.wind_speed_10m) + ' km/h' : '--');
+        setText('[data-footer-weather-sunrise]', formatTime(data.daily && data.daily.sunrise && data.daily.sunrise[0]));
+        setText('[data-footer-weather-sunset]', formatTime(data.daily && data.daily.sunset && data.daily.sunset[0]));
+      })
+      .catch(function () {
+        setText('[data-footer-weather-condition]', 'Weather temporarily unavailable');
+        setText('[data-footer-weather-icon]', 'OFF');
+      });
   })();
 </script>

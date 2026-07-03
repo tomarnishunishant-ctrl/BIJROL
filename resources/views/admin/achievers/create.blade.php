@@ -6,6 +6,7 @@
     <title>Add Who's Who Profile | BIJROL Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
     <style>
         body { font-family:Poppins,sans-serif; background:linear-gradient(180deg,#f5fbf7,#fffaf0); color:#132016; }
         .admin-wrap { width:min(980px,calc(100% - 28px)); margin:32px auto; }

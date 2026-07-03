@@ -74,23 +74,6 @@
         ['name' => 'Visitor', 'role' => 'Heritage Explorer', 'text' => 'The gallery, map, and timeline make Bijrol easier to understand before visiting.'],
     ];
 
-    $featureLinks = [
-        ['title' => 'Information', 'href' => '/about#information', 'label' => 'Village profile'],
-        ['title' => 'Gallery', 'href' => '/gallery', 'label' => 'Village photos'],
-        ['title' => 'Panchayat', 'href' => '/panchayat-dashboard', 'label' => 'Development dashboard'],
-        ['title' => 'Voice', 'href' => '/village-voice', 'label' => 'Public suggestions'],
-    ];
-
-    $quickLinks = [
-        ['title' => 'Panchayat', 'href' => '/panchayat-dashboard', 'label' => 'Development records'],
-        ['title' => 'Gallery', 'href' => '/gallery', 'label' => 'Photos and moments'],
-        ['title' => 'Temples', 'href' => '/temples', 'label' => 'Radha Krishna and more'],
-        ['title' => 'Schools', 'href' => '/schools', 'label' => 'Education directory'],
-        ['title' => 'Hospitals', 'href' => '/hospitals', 'label' => 'Healthcare access'],
-        ['title' => 'Voice', 'href' => '/village-voice', 'label' => 'Share suggestions'],
-        ['title' => 'Contact', 'href' => '/contact', 'label' => 'Reach village team'],
-    ];
-
     $atAGlance = [
         ['label' => 'PIN Code', 'value' => '250620'],
         ['label' => 'Block', 'value' => 'Baraut'],
@@ -98,6 +81,12 @@
         ['label' => 'State', 'value' => 'Uttar Pradesh'],
         ['label' => 'Nearest Town', 'value' => 'Baraut'],
         ['label' => 'Population', 'value' => '11,742+'],
+    ];
+
+    $topHeritageCards = [
+        ['title' => 'Historic Identity', 'text' => 'Bijrol is remembered as a living heritage of western Uttar Pradesh, culture, and the freedom struggle.'],
+        ['title' => '1857 Legacy', 'text' => 'Baba Shahmal Singh Tomar led organized resistance against foreign rule from this region.'],
+        ['title' => 'Cultural Memory', 'text' => 'Old routes, ponds, religious places, memorials, stories, and people together shape village identity.'],
     ];
 
 @endphp
@@ -399,6 +388,128 @@
             radial-gradient(circle at 12% 20%, rgba(31, 122, 77, .1), transparent 24rem),
             radial-gradient(circle at 88% 10%, rgba(199, 146, 44, .13), transparent 22rem),
             linear-gradient(180deg, rgba(255,250,237,.72), rgba(230, 246, 234, .78));
+    }
+
+    .hs-top-heritage {
+        position: relative;
+        padding: 44px 0 30px;
+        background:
+            radial-gradient(circle at 10% 10%, rgba(31, 122, 77, .16), transparent 30%),
+            radial-gradient(circle at 90% 16%, rgba(199, 146, 44, .18), transparent 32%),
+            linear-gradient(180deg, #fbf1df 0%, #fffaf0 100%);
+        overflow: hidden;
+    }
+
+    .hs-top-heritage::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+            linear-gradient(90deg, rgba(31, 122, 77, .045) 1px, transparent 1px),
+            linear-gradient(0deg, rgba(199, 146, 44, .045) 1px, transparent 1px);
+        background-size: 72px 72px;
+        pointer-events: none;
+    }
+
+    .hs-top-heritage-grid {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: minmax(0, .62fr) minmax(320px, .38fr);
+        gap: 18px;
+        align-items: stretch;
+    }
+
+    .hs-top-heritage-main,
+    .hs-top-heritage-side {
+        border: 1px solid rgba(16, 28, 24, .12);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, .78);
+        box-shadow: 0 20px 54px rgba(16, 28, 24, .1);
+        backdrop-filter: blur(18px);
+    }
+
+    .hs-top-heritage-main {
+        padding: 26px;
+        animation: hsHeritageRise .78s cubic-bezier(.2, .8, .2, 1) both;
+    }
+
+    .hs-top-heritage-main h2 {
+        margin: 10px 0 12px;
+        color: var(--deep);
+        font-size: clamp(32px, 4.8vw, 58px);
+        line-height: 1.02;
+        font-weight: 950;
+        letter-spacing: 0;
+    }
+
+    .hs-top-heritage-main p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 15.5px;
+        line-height: 1.78;
+    }
+
+    .hs-top-heritage-main p + p {
+        margin-top: 12px;
+    }
+
+    .hs-top-heritage-side {
+        display: grid;
+        gap: 10px;
+        padding: 16px;
+        animation: hsHeritageRise .78s cubic-bezier(.2, .8, .2, 1) both .08s;
+    }
+
+    .hs-top-heritage-card {
+        position: relative;
+        min-height: 112px;
+        padding: 16px;
+        overflow: hidden;
+        border: 1px solid rgba(16, 28, 24, .1);
+        border-radius: 8px;
+        background: linear-gradient(135deg, rgba(255,255,255,.88), rgba(244,250,238,.9));
+        transition: transform .22s ease, box-shadow .22s ease;
+    }
+
+    .hs-top-heritage-card::before {
+        content: "";
+        position: absolute;
+        inset: 0 auto 0 0;
+        width: 4px;
+        background: linear-gradient(180deg, var(--green), #c7922c);
+    }
+
+    .hs-top-heritage-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 16px 32px rgba(16, 28, 24, .11);
+    }
+
+    .hs-top-heritage-card strong {
+        display: block;
+        color: var(--deep);
+        font-size: 16px;
+        font-weight: 950;
+        margin-bottom: 6px;
+    }
+
+    .hs-top-heritage-card span {
+        display: block;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.55;
+        font-weight: 650;
+    }
+
+    @keyframes hsHeritageRise {
+        from {
+            opacity: 0;
+            transform: translateY(18px) scale(.985);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
     }
 
     .hs-quick {
@@ -1226,7 +1337,8 @@
         .hs-gallery,
         .hs-tour,
         .hs-map-grid,
-        .hs-news-grid {
+        .hs-news-grid,
+        .hs-top-heritage-grid {
             grid-template-columns: 1fr;
         }
 
@@ -1246,6 +1358,10 @@
         .hs-portal-hero {
             min-height: auto;
             padding-top: 58px;
+        }
+
+        .hs-top-heritage {
+            padding: 34px 0 24px;
         }
     }
 
@@ -1269,6 +1385,14 @@
         .hs-portal-copy p {
             font-size: 15px;
             line-height: 1.68;
+        }
+
+        .hs-top-heritage-main {
+            padding: 20px;
+        }
+
+        .hs-top-heritage-main h2 {
+            font-size: clamp(30px, 10vw, 44px);
         }
 
         .hs-actions,
@@ -1792,16 +1916,25 @@
         <a class="hs-scroll-indicator" href="#at-a-glance">Scroll</a>
     </section>
 
-    <section class="hs-quick" aria-label="Quick village links">
-        <div class="hs-wrap">
-            <div class="hs-quick-grid">
-                @foreach($quickLinks as $index => $link)
-                    <a class="hs-quick-card hs-glass hs-reveal" href="{{ url($link['href']) }}" style="--delay:{{ $index * .03 }}s;">
-                        <strong>{{ $link['title'] }}</strong>
-                        <span>{{ $link['label'] }}</span>
-                    </a>
+    <section class="hs-top-heritage" aria-label="Bijrol heritage introduction">
+        <div class="hs-wrap hs-top-heritage-grid">
+            <article class="hs-top-heritage-main">
+                <span class="hs-kicker" style="color:var(--green)">Bijrol Heritage</span>
+                <h2>A village of history, culture, and freedom memory.</h2>
+                <p>Bijrol, located in Baghpat district of Uttar Pradesh, is not just an ordinary rural settlement. It is an important heritage village of western Uttar Pradesh, known for its history, culture, and connection with the freedom struggle.</p>
+                <p>This is the soil where Baba Shahmal Singh Tomar, one of the great leaders of the 1857 uprising, led organized resistance against foreign rule. Because of this legacy, the name of Bijrol is remembered not only in local history, but also with respect in the wider history of the Indian freedom movement.</p>
+                <p>The true identity of a village is not created only by its population, fields, or houses. It is shaped by its historical heritage, cultural traditions, religious places, old routes, ponds, memorials, oral stories, and the people who gave honor to that land. In this sense, Bijrol is a deeply rich village.</p>
+                <p>Although many old structures have disappeared with time, many historic places have merged into modern construction, and several oral traditions have slowly faded, the soil of Bijrol still carries many signs of its proud past. What is needed now is to recognize them, preserve them, and carry them to future generations.</p>
+            </article>
+
+            <aside class="hs-top-heritage-side">
+                @foreach($topHeritageCards as $card)
+                    <div class="hs-top-heritage-card">
+                        <strong>{{ $card['title'] }}</strong>
+                        <span>{{ $card['text'] }}</span>
+                    </div>
                 @endforeach
-            </div>
+            </aside>
         </div>
     </section>
 
@@ -1973,15 +2106,7 @@
                 <aside class="hs-map-panel hs-glass hs-reveal">
                     <span class="hs-kicker">Interactive Map</span>
                     <h3>Find Bijrol in Baghpat, Uttar Pradesh.</h3>
-                    <p>Use the map to orient yourself around the village and explore key website sections from one place.</p>
-                    <div class="hs-links">
-                        @foreach($featureLinks as $link)
-                            <a class="hs-link-card hs-glass" href="{{ url($link['href']) }}">
-                                <strong>{{ $link['title'] }}</strong>
-                                <span>{{ $link['label'] }}</span>
-                            </a>
-                        @endforeach
-                    </div>
+                    <p>Use the map to orient yourself around the village and understand Bijrol's location in the Baraut-Baghpat region.</p>
                 </aside>
                 <div class="hs-map hs-glass hs-reveal" style="--delay:.08s;">
                     <iframe

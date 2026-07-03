@@ -6,6 +6,7 @@
     <title>@if(isset($clinic)) Edit @else New @endif Clinic | BIJROL Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
     <style>
         :root { --admin-ink:#132016; --admin-muted:#607067; --admin-green:#116241; --admin-green-dark:#073f2a; --admin-line:rgba(19,32,22,.12); --admin-shadow:0 18px 48px rgba(19,32,22,.1); }
         * { box-sizing:border-box; }

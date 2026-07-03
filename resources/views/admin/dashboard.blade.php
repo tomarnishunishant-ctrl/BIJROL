@@ -6,6 +6,7 @@
     <title>Admin Dashboard | BIJROL</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
     <style>
         :root {
             --admin-ink: #132016;
@@ -13,17 +14,21 @@
             --admin-green: #116241;
             --admin-green-dark: #073f2a;
             --admin-blue: #2563eb;
+            --admin-cyan: #0891b2;
             --admin-gold: #d97706;
-            --admin-bg: #f5fbf7;
+            --admin-bg: #eef7f2;
             --admin-line: rgba(19, 32, 22, .12);
             --admin-shadow: 0 18px 48px rgba(19, 32, 22, .1);
+            --admin-shadow-strong: 0 24px 70px rgba(15, 35, 28, .16);
         }
 
         * { box-sizing: border-box; }
         body {
             margin: 0;
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(180deg, #f5fbf7 0%, #fffaf0 100%);
+            background:
+                radial-gradient(circle at top left, rgba(8, 145, 178, .12), transparent 32%),
+                linear-gradient(180deg, #eef7f2 0%, #fffaf0 100%);
             color: var(--admin-ink);
         }
 
@@ -38,15 +43,20 @@
             top: 0;
             height: 100vh;
             padding: 24px;
-            background: linear-gradient(180deg, var(--admin-green-dark), #0b2f22);
+            background:
+                linear-gradient(180deg, rgba(7, 63, 42, .98), rgba(8, 28, 29, .98)),
+                url('{{ asset('image/bijrol.jpg.png') }}') center/cover no-repeat;
             color: #fff;
+            box-shadow: 18px 0 48px rgba(7, 63, 42, .18);
         }
 
         .admin-brand {
             display: block;
-            padding-bottom: 22px;
+            padding: 16px 14px 22px;
             margin-bottom: 22px;
-            border-bottom: 1px solid rgba(255, 255, 255, .16);
+            border: 1px solid rgba(255, 255, 255, .14);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, .09);
             color: #fff;
             text-decoration: none;
         }
@@ -78,17 +88,20 @@
             padding: 10px 12px;
             border-radius: 8px;
             border: 1px solid rgba(255, 255, 255, .12);
-            background: rgba(255, 255, 255, .08);
+            background: rgba(255, 255, 255, .09);
             color: rgba(255, 255, 255, .9);
             text-decoration: none;
             font-size: .92rem;
             font-weight: 750;
+            transition: transform .18s ease, background .18s ease, border-color .18s ease;
         }
 
         .admin-nav a:hover,
         .admin-logout:hover {
             background: rgba(255, 255, 255, .16);
+            border-color: rgba(255, 255, 255, .24);
             color: #fff;
+            transform: translateX(3px);
         }
 
         .admin-logout {
@@ -98,6 +111,8 @@
 
         .admin-main {
             padding: 28px;
+            max-width: 1680px;
+            width: 100%;
         }
 
         .admin-hero,
@@ -117,9 +132,11 @@
             padding: 26px;
             margin-bottom: 22px;
             background:
-                linear-gradient(135deg, rgba(17, 98, 65, .96), rgba(37, 99, 235, .84)),
+                linear-gradient(135deg, rgba(7, 63, 42, .95), rgba(37, 99, 235, .76)),
                 url('{{ asset('image/vil.jpg.png') }}') center/cover no-repeat;
             color: #fff;
+            box-shadow: var(--admin-shadow-strong);
+            overflow: hidden;
         }
 
         .admin-hero h1 {
@@ -154,12 +171,15 @@
             color: #fff;
             text-decoration: none;
             font-weight: 850;
-            background: rgba(255, 255, 255, .14);
+            background: rgba(255, 255, 255, .16);
+            backdrop-filter: blur(10px);
+            transition: transform .18s ease, background .18s ease;
         }
 
         .admin-btn:hover {
             color: #fff;
             background: rgba(255, 255, 255, .22);
+            transform: translateY(-2px);
         }
 
         .admin-alert {
@@ -180,7 +200,24 @@
         }
 
         .admin-card {
+            position: relative;
             padding: 20px;
+            overflow: hidden;
+            transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+        }
+
+        .admin-card::before {
+            content: "";
+            position: absolute;
+            inset: 0 0 auto;
+            height: 4px;
+            background: linear-gradient(90deg, var(--admin-green), var(--admin-cyan), var(--admin-gold));
+        }
+
+        .admin-card:hover {
+            border-color: rgba(17, 98, 65, .26);
+            box-shadow: 0 20px 42px rgba(19, 32, 22, .13);
+            transform: translateY(-2px);
         }
 
         .admin-card small {
@@ -215,11 +252,14 @@
             color: var(--admin-ink);
             text-decoration: none;
             box-shadow: 0 10px 24px rgba(19, 32, 22, .06);
+            transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
         }
 
         .section-link:hover {
             border-color: rgba(17, 98, 65, .34);
             color: var(--admin-green-dark);
+            box-shadow: 0 18px 36px rgba(19, 32, 22, .11);
+            transform: translateY(-2px);
         }
 
         .section-link strong {
@@ -246,7 +286,7 @@
             align-items: center;
             padding: 22px;
             border-bottom: 1px solid var(--admin-line);
-            background: #fbfefc;
+            background: linear-gradient(135deg, #fbfefc, #f5f9ff);
         }
 
         .admin-table-head h2 {
@@ -273,6 +313,10 @@
             white-space: nowrap;
         }
 
+        .table tbody tr:hover td {
+            background: #f8fcfa;
+        }
+
         .table td,
         .table th {
             vertical-align: middle;
@@ -288,6 +332,23 @@
             color: var(--admin-muted);
             font-size: .86rem;
             line-height: 1.55;
+        }
+
+        .badge-status {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 28px;
+            padding: 5px 10px;
+            border-radius: 999px;
+            font-size: .76rem;
+            font-weight: 900;
+            white-space: nowrap;
+        }
+
+        .btn {
+            border-radius: 8px;
+            font-weight: 800;
         }
 
         .status-form {

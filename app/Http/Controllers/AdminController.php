@@ -8,7 +8,11 @@ use App\Models\VillageSuggestion;
 use App\Models\News;
 use App\Models\Event;
 use App\Models\Clinic;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -16,6 +20,10 @@ class AdminController extends Controller
 {
     private function ensureAdmin(Request $request)
     {
+        if (Auth::check() && Auth::user()->is_admin) {
+            return null;
+        }
+
         if (!$request->session()->get('is_admin')) {
             return redirect()->route('admin.login');
         }
@@ -28,12 +36,98 @@ class AdminController extends Controller
         return view('admin.login');
     }
 
+    public function forgotPassword()
+    {
+        return view('admin.forgot-password');
+    }
+
+    public function sendPasswordHelp(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => ['required', 'email', 'max:160'],
+        ]);
+
+        $user = User::where('email', $validated['email'])->where('is_admin', true)->first();
+
+        if ($user) {
+            $token = Str::random(64);
+
+            DB::table('password_reset_tokens')->updateOrInsert(
+                ['email' => $user->email],
+                [
+                    'token' => Hash::make($token),
+                    'created_at' => now(),
+                ]
+            );
+
+            return back()
+                ->with('success', 'Reset request generated. On this local setup, use the secure reset link below.')
+                ->with('reset_link', route('admin.password.reset', ['token' => $token, 'email' => $user->email]));
+        }
+
+        return back()->with('success', 'If this admin email exists, password reset instructions will be available to the site owner.');
+    }
+
+    public function resetPassword(string $token, Request $request)
+    {
+        return view('admin.reset-password', [
+            'token' => $token,
+            'email' => $request->query('email'),
+        ]);
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => ['required', 'email', 'max:160'],
+            'token' => ['required', 'string'],
+            'password' => ['required', 'confirmed', 'min:8'],
+        ]);
+
+        $record = DB::table('password_reset_tokens')->where('email', $validated['email'])->first();
+
+        if (!$record || !Hash::check($validated['token'], $record->token)) {
+            return back()->with('error', 'This reset link is invalid or has already been used.');
+        }
+
+        if ($record->created_at && now()->diffInMinutes($record->created_at) > 60) {
+            DB::table('password_reset_tokens')->where('email', $validated['email'])->delete();
+
+            return back()->with('error', 'This reset link has expired. Please request a new one.');
+        }
+
+        $user = User::where('email', $validated['email'])->where('is_admin', true)->firstOrFail();
+        $user->forceFill([
+            'password' => Hash::make($validated['password']),
+        ])->save();
+
+        DB::table('password_reset_tokens')->where('email', $validated['email'])->delete();
+
+        return redirect()->route('admin.login')->with('success', 'Password reset successfully. Please login with your new password.');
+    }
+
     public function authenticate(Request $request)
     {
         $credentials = $request->validate([
             'username' => ['required'],
             'password' => ['required'],
         ]);
+
+        $adminUser = User::where('is_admin', true)
+            ->where(function ($query) use ($credentials) {
+                $query->where('email', $credentials['username'])
+                    ->orWhere('name', $credentials['username']);
+            })
+            ->first();
+
+        if ($adminUser && Hash::check($credentials['password'], $adminUser->password)) {
+            Auth::login($adminUser);
+            $adminUser->forceFill(['last_login_at' => now()])->save();
+            $request->session()->regenerate();
+            $request->session()->put('is_admin', true);
+
+            return redirect()->route('admin.dashboard');
+        }
 
         $adminUsername = env('ADMIN_USERNAME', 'admin');
         $adminPassword = env('ADMIN_PASSWORD', 'admin123');
@@ -635,7 +729,10 @@ class AdminController extends Controller
 
     public function logout(Request $request)
     {
+        Auth::logout();
         $request->session()->forget('is_admin');
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
         return redirect()->route('admin.login');
     }

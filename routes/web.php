@@ -212,6 +212,10 @@ Route::post('/government-employees', function (Request $request) {
 // Admin Routes
 Route::post('/admin/login', [AdminController::class, 'authenticate']);
 Route::get('/admin/login', [AdminController::class, 'login'])->name('admin.login');
+Route::get('/admin/forgot-password', [AdminController::class, 'forgotPassword'])->name('admin.password.request');
+Route::post('/admin/forgot-password', [AdminController::class, 'sendPasswordHelp'])->name('admin.password.email');
+Route::get('/admin/reset-password/{token}', [AdminController::class, 'resetPassword'])->name('admin.password.reset');
+Route::post('/admin/reset-password', [AdminController::class, 'updatePassword'])->name('admin.password.update');
 Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 Route::delete('/admin/government-employees/{governmentEmployee}', [AdminController::class, 'destroyGovernmentEmployee'])
     ->name('admin.government-employees.destroy');

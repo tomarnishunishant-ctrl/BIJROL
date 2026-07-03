@@ -1,0 +1,149 @@
+:root {
+    --admin-ink: #132016;
+    --admin-muted: #607067;
+    --admin-green: #116241;
+    --admin-green-dark: #073f2a;
+    --admin-blue: #2563eb;
+    --admin-cyan: #0891b2;
+    --admin-gold: #d97706;
+    --admin-line: rgba(19, 32, 22, .12);
+    --admin-shadow: 0 18px 48px rgba(19, 32, 22, .1);
+}
+
+body {
+    background:
+        radial-gradient(circle at top left, rgba(8, 145, 178, .12), transparent 32%),
+        linear-gradient(180deg, #eef7f2 0%, #fffaf0 100%) !important;
+}
+
+.admin-sidebar {
+    background:
+        linear-gradient(180deg, rgba(7, 63, 42, .98), rgba(8, 28, 29, .98)),
+        url('../image/bijrol.jpg.png') center/cover no-repeat !important;
+    box-shadow: 18px 0 48px rgba(7, 63, 42, .18);
+}
+
+.admin-brand {
+    padding: 16px 14px 22px !important;
+    border: 1px solid rgba(255, 255, 255, .14) !important;
+    border-radius: 8px !important;
+    background: rgba(255, 255, 255, .09) !important;
+}
+
+.admin-nav a,
+.admin-logout {
+    background: rgba(255, 255, 255, .09) !important;
+    transition: transform .18s ease, background .18s ease, border-color .18s ease;
+}
+
+.admin-nav a:hover,
+.admin-logout:hover {
+    border-color: rgba(255, 255, 255, .24) !important;
+    transform: translateX(3px);
+}
+
+.admin-main {
+    max-width: 1680px;
+    width: 100%;
+}
+
+.admin-card,
+.admin-table-card {
+    border-radius: 8px !important;
+    box-shadow: var(--admin-shadow) !important;
+}
+
+.admin-card {
+    position: relative;
+    overflow: hidden;
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+
+.admin-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 4px;
+    background: linear-gradient(90deg, var(--admin-green), var(--admin-cyan), var(--admin-gold));
+}
+
+.admin-card:hover {
+    border-color: rgba(17, 98, 65, .26) !important;
+    box-shadow: 0 20px 42px rgba(19, 32, 22, .13) !important;
+    transform: translateY(-2px);
+}
+
+.admin-table-head {
+    background: linear-gradient(135deg, #fbfefc, #f5f9ff) !important;
+}
+
+.table thead th {
+    background: var(--admin-green-dark) !important;
+    color: #fff !important;
+}
+
+.table tbody tr:hover td {
+    background: #f8fcfa;
+}
+
+.badge-status {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    min-height: 28px;
+    padding: 5px 10px !important;
+    border-radius: 999px !important;
+    font-size: .76rem !important;
+    font-weight: 900 !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
+    white-space: nowrap;
+}
+
+.btn {
+    border-radius: 8px !important;
+    font-weight: 800 !important;
+}
+
+.btn-success {
+    border-color: var(--admin-green) !important;
+    background: linear-gradient(135deg, var(--admin-green), var(--admin-blue)) !important;
+}
+
+.btn-outline-primary,
+.btn-outline-success {
+    border-color: rgba(17, 98, 65, .28) !important;
+    color: var(--admin-green-dark) !important;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-success:hover {
+    background: var(--admin-green) !important;
+    color: #fff !important;
+}
+
+.form-control,
+.form-select,
+select,
+textarea {
+    border-radius: 8px !important;
+    border-color: #d6e1da !important;
+}
+
+.form-control:focus,
+.form-select:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--admin-green) !important;
+    box-shadow: 0 0 0 .2rem rgba(17, 98, 65, .13) !important;
+}
+
+.empty-state {
+    background: #fbfefc;
+}
+
+@media (max-width: 900px) {
+    .admin-sidebar {
+        box-shadow: none;
+    }
+}
