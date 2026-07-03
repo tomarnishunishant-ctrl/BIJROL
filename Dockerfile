@@ -1,13 +1,3 @@
-FROM node:22-alpine AS assets
-
-WORKDIR /app
-COPY package*.json ./
-RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi
-COPY resources ./resources
-COPY public ./public
-COPY vite.config.js ./
-RUN npm run build
-
 FROM php:8.2-apache
 
 WORKDIR /var/www/html
@@ -30,7 +20,6 @@ RUN apt-get update \
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 COPY . .
-COPY --from=assets /app/public/build ./public/build
 COPY .docker/apache-vhost.conf /etc/apache2/sites-available/000-default.conf
 COPY .docker/start.sh /usr/local/bin/start-laravel
 
